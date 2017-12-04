@@ -28,8 +28,7 @@ Action Timer_RoundCountDown() {
 
 public void Event_RoundStart(Event event, const char[] name, bool dontBroadcast) {
     currentWardenClient = 0;
-    CreateTimer(GetTickInterval(), Timer_RoundCountDown, 0,
-        TIMER_REPEAT);
+    CreateTimer(GetTickInterval(), Timer_RoundCountDown, 0, TIMER_REPEAT);
 
     cvFriendlyFire.SetInt(0, 1, 0);
     cvNoHardCollisions.setInt(1, 1, 0);
