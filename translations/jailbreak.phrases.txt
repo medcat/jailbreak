@@ -1,0 +1,116 @@
+Phrases
+{
+    "Jailbreak_Hud_NewWarden"
+    {
+        "#format"   "{1:s}"
+        "en"        "{1:s} is now warden!"
+    }
+
+    "Jailbreak_Hud_RemoveWarden"
+    {
+        "en"        "Warden has resigned!"
+    }
+
+    "Jailbreak_Hud_Timer"
+    {
+        "#format"   "{1:d}, {2:02d}"
+        "en"        "Time Left: {1}:{2}"
+    }
+
+    "Jailbreak_NewWarden"
+    {
+        "#format"   "{1:s}"
+        "en"        "{green}{1}{lightgreen} is now warden!"
+    }
+
+    "Jailbreak_GiveWarden_Console"
+    {
+        "en"    "Why are you trying to be warden?"
+    }
+
+    "Jailbreak_GiveWarden_OutOfRound"
+    {
+        "en"    "You can't be warden just yet!"
+    }
+
+    "Jailbreak_GiveWarden_MustBlue"
+    {
+        "en"    "You must be on the Blue team to run this command!"
+    }
+
+    "Jailbreak_GiveWarden_Success"
+    {
+        "en"    "Success! You are now warden."
+    }
+
+    "Jailbreak_UnWarden_NotWarden"
+    {
+        "en"    "You can't unwarden because you're not warden!"
+    }
+
+    "Jailbreak_UnWarden_WardenRemoved"
+    {
+        "en"    "The current warden has resigned!"
+    }
+
+    "Jailbreak_UnWarden_Success"
+    {
+        "en"    "Success! You have resigned as warden."
+    }
+
+    "Jailbreak_CheckWarden_None"
+    {
+        "en"    "There is no warden currently."
+    }
+
+    "Jailbreak_CheckWarden_Found"
+    {
+        "#format"   "{1:s}"
+        "en"        "{green}{1}{lightgreen} is currently warden."
+    }
+
+    "Jailbreak_Admin_ForceWarden_NotFound"
+    {
+        "en"    "Could not find user, or you can't target them."
+    }
+
+    "Jailbreak_Admin_ForceWarden_Success"
+    {
+        "en"    "Success! The user has been made warden!"
+    }
+
+    "Jailbreak_Admin_RemoveWarden_None"
+    {
+        "en"    "There is no warden to remove!"
+    }
+
+    "Jailbreak_Warden_NotWarden"
+    {
+        "en"    "You are not warden, and so you cannot run this command."
+    }
+
+    "Jailbreak_Warden_NotAllowed"
+    {
+        "en"    "You are not allowed to do that."
+    }
+
+    "Jailbreak_Warden_FriendlyFire_Enabled"
+    {
+        "en"    "Friendly fire has been enabled!"
+    }
+
+    "Jailbreak_Warden_FriendlyFire_Disabled"
+    {
+        "en"    "Friendly fire has been disabled!"
+    }
+
+    "Jailbreak_Warden_SoftCollisions_Disabled"
+    {
+        "en"    "The warden has disabled soft collisions."
+    }
+
+    "Jailbreak_Warden_SoftCollisions_Enabled"
+    {
+        "en"    "The warden has enabled soft collisions."
+    }
+}

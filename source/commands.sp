@@ -1,0 +1,45 @@
+#include "./commands/warden.sp"
+#include "./commands/warden_actions.sp"
+
+void InitializeCommands() {
+    RegConsoleCmd("sm_jailbreak_warden", Command_GiveWarden,
+        "Requests warden.", FCVAR_NONE);
+    RegConsoleCmd("sm_warden", Command_GiveWarden,
+        "Requests warden.", FCVAR_NONE);
+    RegConsoleCmd("sm_w", Command_GiveWarden,
+        "Requests warden.", FCVAR_NONE);
+
+    RegConsoleCmd("sm_jailbreak_unwarden", Command_UnWarden,
+        "Removes warden.", FCVAR_NONE);
+    RegConsoleCmd("sm_unwarden", Command_UnWarden,
+        "Removes warden.", FCVAR_NONE);
+    RegConsoleCmd("sm_uw", Command_UnWarden,
+        "Removes warden.", FCVAR_NONE);
+
+    RegConsoleCmd("sm_jailbreak_checkwarden", Command_CheckWarden,
+        "Checks for who is warden.", FCVAR_NONE);
+    RegConsoleCmd("sm_checkwarden", Command_CheckWarden,
+        "Checks for who is warden.", FCVAR_NONE);
+    RegConsoleCmd("sm_cw", Command_CheckWarden,
+        "Checks for who is warden.", FCVAR_NONE);
+
+    RegAdminCmd("sm_jailbreak_forcewarden", Command_Admin_ForceWarden,
+        ADMFLAG_KICK, "Forces a user to be warden.", "sm_jailbreak_forcewarden",
+        FCVAR_NONE);
+    RegAdminCmd("sm_forcewarden", Command_Admin_ForceWarden,
+        ADMFLAG_KICK, "Forces a user to be warden.", "sm_jailbreak_forcewarden",
+        FCVAR_NONE);
+    RegAdminCmd("sm_fw", Command_Admin_ForceWarden,
+        ADMFLAG_KICK, "Forces a user to be warden.", "sm_jailbreak_forcewarden",
+        FCVAR_NONE);
+
+    RegAdminCmd("sm_jailbreak_removewarden", Command_Admin_RemoveWarden,
+        ADMFLAG_KICK, "Removes a user from warden.", "sm_jailbreak_removewarden",
+        FCVAR_NONE);
+    RegAdminCmd("sm_removewarden", Command_Admin_RemoveWarden,
+        ADMFLAG_KICK, "Removes a user from warden.", "sm_jailbreak_removewarden",
+        FCVAR_NONE);
+    RegAdminCmd("sm_rw", Command_Admin_RemoveWarden,
+        ADMFLAG_KICK, "Removes a user from warden.", "sm_jailbreak_removewarden",
+        FCVAR_NONE);
+}
