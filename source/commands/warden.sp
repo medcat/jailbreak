@@ -1,7 +1,7 @@
 int currentWardenClient = 0;
 Handle wardenDeclareSync = null;
 
-void MakeClientWarden(int client) {
+stock void MakeClientWarden(int client) {
     currentWardenClient = client;
     char name[32];
     GetClientName(client, name, sizeof(name));
@@ -11,7 +11,7 @@ void MakeClientWarden(int client) {
     ShowSyncHudTextAll(wardenDeclareSync, "%T", "Jailbreak_Hud_NewWarden");
 }
 
-void RemoveWarden() {
+stock void RemoveWarden() {
     currentWardenClient = 0;
     CPrintToChatAll(client, JAILBREAK_REPLY, "Jailbreak_UnWarden_WardenRemoved");
     SetHudTextParams(0.75, -1.0, 5.0, 255, 255, 255, 125, 0, 0, 0, 0);

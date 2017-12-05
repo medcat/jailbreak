@@ -1,10 +1,17 @@
 - [ ] what are the default gamemode rules?
 - [ ] round management?
   - [ ] team ratio
-  - [ ] timer
+  - [x] timer
   - [ ] end conditions
   - [ ] entities will probably have to be managed in the plugin
-    - [ ] `team_round_timer`
-    - [ ] `game_round_win`
-    - [ ] `tf_gamerules`
-    
+    - [x] `team_round_timer`
+    - [x] `game_round_win`
+    - [x] `tf_gamerules`
+    - [ ] `tf_logic_arena`
+  - [ ] convars
+    - [ ] `mp_autoteambalance`
+    - [ ] `mp_scrambleteams_auto`
+    - [ ] `mp_stalemate_enable`
+    - [ ] `mp_teams_unbalance_limit`
+    - [ ] `tf_arena_first_blood`
+    - [ ] `tf_arena_use_queue`

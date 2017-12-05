@@ -20,7 +20,7 @@ ConVar cvNoHardCollisions;
 // Soft collisions?
 ConVar cvSoftCollisions;
 
-void InitializeConVars() {
+stock void InitializeConVars() {
     // 0 <= cvRoundTime <= 30 minutes
     cvRoundTime = CreateConVar("sm_jailbreak_round_time", "600", "The round time, in seconds.", FCVAR_NOTIFY, true, 0, true, 60 * 30);
     cvWardenFriendlyFire = CreateConVar("sm_jailbreak_warden_friendly_fire", "1", "Can the warden set friendly fire?", FCVAR_NOTIFY, true, 0, true, 1);

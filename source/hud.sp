@@ -1,4 +1,4 @@
-void ShowSyncHudTextAll(Handle sync, const char[] message, any ...) {
+stock void ShowSyncHudTextAll(Handle sync, const char[] message, any ...) {
     char[] formatted = decl char[MAX_BUFFER_LENGTH];
     VFormat(formatted, MAX_BUFFER_LENGTH, 3);
 
