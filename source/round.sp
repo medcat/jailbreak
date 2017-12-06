@@ -1,27 +1,24 @@
-public void Event_RoundStart(Event event, const char[] name, bool dontBroadcast) {
-    currentWardenClient = 0;
+#include "./round/entities.sp"
 
-    cvFriendlyFire.SetInt(0, 1, 0);
-    cvNoHardCollisions.setInt(1, 1, 0);
-    cvSoftCollisions.setInt(0, 1, 0);
+public void Event_RoundStart(Event event, const char[] eventName, bool dontBroadcast) {
+    currentWardenClient = 0;
+    PrepareGameConVars();
 }
 
-public Action TF2_CalcIsAttackCritical(int client, int _, char[] _n, bool &result) {
+public Action TF2_CalcIsAttackCritical(int client, int _b, char[] _n, bool &result) {
     TFTeam team = TF2_GetClientTeam(client);
 
     switch(cvCriticals.IntValue) {
     case 1:
         if(team == TFTeam_Red) { result = true; return Plugin_Handled; }
-        break;
     case 2:
         if(team == TFTeam_Blue) { result = true; return Plugin_Handled; }
-        break;
-    case 3:
+    case 3: {
         result = true;
         return Plugin_Handled;
+    }
     case 4:
-        if(currentWardenClient == client) { result = true; return Plugin_Handled; }
-        break;
+        if(GetClientFromSerial(currentWardenClient) == client) { result = true; return Plugin_Handled; }
     }
 
     return Plugin_Continue;

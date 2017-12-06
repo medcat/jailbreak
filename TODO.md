@@ -1,17 +1,39 @@
 - [ ] what are the default gamemode rules?
 - [ ] round management?
-  - [ ] team ratio
+  - [x] team ratio
   - [x] timer
   - [ ] end conditions
-  - [ ] entities will probably have to be managed in the plugin
+  - [x] entities will probably have to be managed in the plugin
     - [x] `team_round_timer`
     - [x] `game_round_win`
     - [x] `tf_gamerules`
-    - [ ] `tf_logic_arena`
-  - [ ] convars
-    - [ ] `mp_autoteambalance`
-    - [ ] `mp_scrambleteams_auto`
-    - [ ] `mp_stalemate_enable`
-    - [ ] `mp_teams_unbalance_limit`
-    - [ ] `tf_arena_first_blood`
-    - [ ] `tf_arena_use_queue`
+    - [x] `tf_logic_arena`
+  - [x] convars
+    - [x] `mp_autoteambalance`
+    - [x] `mp_scrambleteams_auto`
+    - [x] `mp_stalemate_enable`
+    - [x] `mp_teams_unbalance_limit`
+    - [x] `tf_arena_first_blood`
+    - [x] `tf_arena_use_queue`
+- [ ] base jailbreak
+  - [ ] last requests
+  - [x] team balance/ratio
+  - [ ] freeday(s)
+    - [ ] trail beam
+    - [ ] "god mode"
+    - [ ] loss on attack
+  - [ ] warden
+    - [x] claiming
+      - [x] base
+      - [x] unwarden
+      - [x] admin force
+      - [x] admin remove
+    - [ ] friendly fire
+      - [x] base
+      - [ ] implicit hard collisions
+    - [x] collisions
+      - [x] soft
+      - [x] hard
+    - [ ] menu
+    - [ ] on leave callback
+    - [ ] on death callback

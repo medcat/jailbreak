@@ -1,24 +1,23 @@
-int currentWardenClient = 0;
-Handle wardenDeclareSync = null;
 
-stock void MakeClientWarden(int client) {
-    currentWardenClient = client;
-    char name[32];
-    GetClientName(client, name, sizeof(name));
+
+void MakeClientWarden(int client) {
+    currentWardenClient = GetClientSerial(client);
+    char cName[32];
+    GetClientName(client, cName, sizeof(cName));
     CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_GiveWarden_Success");
-    CPrintToChatAll(client, JAILBREAK_REPLY, "Jailbreak_NewWarden", name);
-    SetHudTextParams(0.75, -1.0, 5.0, 255, 255, 255, 125, 0, 0, 0, 0);
+    CPrintToChatAll(JAILBREAK_REPLY, "Jailbreak_NewWarden", cName);
+    SetHudTextParams(0.75, -1.0, 5.0, 255, 255, 255, 125, 0, 0.0, 0.0, 0.0);
     ShowSyncHudTextAll(wardenDeclareSync, "%T", "Jailbreak_Hud_NewWarden");
 }
 
-stock void RemoveWarden() {
+void RemoveWarden() {
     currentWardenClient = 0;
-    CPrintToChatAll(client, JAILBREAK_REPLY, "Jailbreak_UnWarden_WardenRemoved");
-    SetHudTextParams(0.75, -1.0, 5.0, 255, 255, 255, 125, 0, 0, 0, 0);
+    CPrintToChatAll(JAILBREAK_REPLY, "Jailbreak_UnWarden_WardenRemoved");
+    SetHudTextParams(0.75, -1.0, 5.0, 255, 255, 255, 125, 0, 0.0, 0.0, 0.0);
     ShowSyncHudTextAll(wardenDeclareSync, "%T", "Jailbreak_Hud_NoWarden");
 }
 
-public Action Command_GiveWarden(int client, int _) {
+public Action Command_GiveWarden(int client, int a) {
     if(client == 0) {
         // why is the console trying to get warden?
         CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_GiveWarden_Console");
@@ -29,14 +28,14 @@ public Action Command_GiveWarden(int client, int _) {
     } else if(currentWardenClient == 0) {
         MakeClientWarden(client);
     } else {
-        return Command_CheckWarden(client, _);
+        return Command_CheckWarden(client, a);
     }
 
     return Plugin_Handled;
 }
 
-public Action Command_UnWarden(int client, int _) {
-    if(client != currentWardenClient) {
+public Action Command_UnWarden(int client, int a) {
+    if(client != GetClientFromSerial(currentWardenClient)) {
         CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_UnWarden_NotWarden");
     } else {
         RemoveWarden();
@@ -46,13 +45,13 @@ public Action Command_UnWarden(int client, int _) {
     return Plugin_Handled;
 }
 
-public Action Command_CheckWarden(int client, int _) {
+public Action Command_CheckWarden(int client, int a) {
     if(currentWardenClient == 0) {
         CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_CheckWarden_None");
     } else {
-        char name[32];
-        GetClientName(currentWardenClient, name, sizeof(name));
-        CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_CheckWarden_Found");
+        char cName[32];
+        GetClientName(GetClientFromSerial(currentWardenClient), cName, sizeof(cName));
+        CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_CheckWarden_Found", cName);
     }
 
     return Plugin_Handled;

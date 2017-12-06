@@ -1,10 +1,12 @@
 .DEFAULT: all
-.PHONY: all
+.PHONY: all clean
 
 SOURCE_FILES := \
 	source/commands/warden_actions.sp \
 	source/commands/warden_menu.sp \
 	source/commands/warden.sp \
+	source/round/entities.sp \
+	source/balance.sp \
 	source/commands.sp \
 	source/cvar.sp \
 	source/hud.sp \
@@ -25,11 +27,12 @@ else
 endif
 SOURCEMOD ?= 1.8-6036
 
-all:
-	echo "${SOURCE_FILES}"
+all: jailbreak.zip
+clean:
+	rm -rf jailbreak.zip jailbreak.smx jailbreak.tar.gz build
 
 jailbreak.zip: jailbreak.smx build
-	cd "build/" && zip -9 "jailbreak.zip" .
+	cd "build/" && zip -9 -r "jailbreak.zip" .
 	cp "build/jailbreak.zip" "jailbreak.zip"
 
 jailbreak.tar.gz: jailbreak.smx build

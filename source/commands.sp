@@ -1,7 +1,7 @@
 #include "./commands/warden.sp"
 #include "./commands/warden_actions.sp"
 
-stock void InitializeCommands() {
+void InitializeCommands() {
     RegConsoleCmd("sm_jailbreak_warden", Command_GiveWarden, "Requests warden.", FCVAR_NONE);
     RegConsoleCmd("sm_warden", Command_GiveWarden, "Requests warden.", FCVAR_NONE);
     RegConsoleCmd("sm_w", Command_GiveWarden, "Requests warden.", FCVAR_NONE);
