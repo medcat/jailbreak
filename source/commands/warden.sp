@@ -63,7 +63,7 @@ public Action Command_Admin_ForceWarden(int client, int args) {
         return Plugin_Handled;
     }
 
-    char target[32];
+    char target[MAX_NAME_LENGTH];
     GetCmdArg(1, target, sizeof(target));
     int targetClient = FindTarget(client, target, true, true);
 

@@ -28,9 +28,9 @@
       - [x] unwarden
       - [x] admin force
       - [x] admin remove
-    - [ ] friendly fire
+    - [x] friendly fire
       - [x] base
-      - [ ] implicit hard collisions
+      - [x] implicit hard collisions
     - [x] collisions
       - [x] soft
       - [x] hard

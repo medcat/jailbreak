@@ -22,3 +22,5 @@ int arenaLogicEntity = -1;
 
 int currentWardenClient = 0;
 Handle wardenDeclareSync = null;
+
+Handle freedayClients[MAXPLAYERS + 1] = { null };

@@ -28,4 +28,6 @@ void InitializeCommands() {
     RegAdminCmd("sm_jailbreak_removewarden", Command_Admin_RemoveWarden, ADMFLAG_KICK, "Removes a user from warden.", "sm_jailbreak_removewarden", FCVAR_NONE);
     RegAdminCmd("sm_removewarden", Command_Admin_RemoveWarden, ADMFLAG_KICK, "Removes a user from warden.", "sm_jailbreak_removewarden", FCVAR_NONE);
     RegAdminCmd("sm_rw", Command_Admin_RemoveWarden, ADMFLAG_KICK, "Removes a user from warden.", "sm_jailbreak_removewarden", FCVAR_NONE);
+
+    RegAdminCmd("sm_jailbreak_forcefreeday", Command_Admin_ForceFreeday, ADMFLAG_SLAY, "", "sm_jailbreak_forcefreeday", FCVAR_NONE);
 }
