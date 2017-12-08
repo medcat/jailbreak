@@ -1,5 +1,5 @@
 - [ ] what are the default gamemode rules?
-- [ ] round management?
+- [x] round management?
   - [x] team ratio
   - [x] timer
   - [x] end conditions
@@ -16,7 +16,7 @@
     - [x] `tf_arena_first_blood`
     - [x] `tf_arena_use_queue`
 - [ ] base jailbreak
-  - [ ] last requests
+  - [x] last requests
   - [x] team balance/ratio
   - [x] freeday(s)
     - [x] trail beam
@@ -38,3 +38,9 @@
     - [x] on leave callback
     - [x] on death callback
   - [ ] red team get weapon on ammo pickup
+- feature requests:
+  - [ ] forwards/natives
+  - [ ] map integration
+  - [ ] more last requests
+  - [ ] blue bans
+  - [ ] documentation
