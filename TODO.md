@@ -2,7 +2,7 @@
 - [ ] round management?
   - [x] team ratio
   - [x] timer
-  - [ ] end conditions
+  - [x] end conditions
   - [x] entities will probably have to be managed in the plugin
     - [x] `team_round_timer`
     - [x] `game_round_win`
@@ -18,10 +18,10 @@
 - [ ] base jailbreak
   - [ ] last requests
   - [x] team balance/ratio
-  - [ ] freeday(s)
-    - [ ] trail beam
-    - [ ] "god mode"
-    - [ ] loss on attack
+  - [x] freeday(s)
+    - [x] trail beam
+    - [x] "god mode"
+    - [x] loss on attack
   - [ ] warden
     - [x] claiming
       - [x] base
@@ -35,5 +35,5 @@
       - [x] soft
       - [x] hard
     - [ ] menu
-    - [ ] on leave callback
-    - [ ] on death callback
+    - [x] on leave callback
+    - [x] on death callback

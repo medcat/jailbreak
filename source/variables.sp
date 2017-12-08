@@ -14,13 +14,20 @@ ConVar cvGameStalemateEnable;
 ConVar cvGameTeamsUnbalanceLimit;
 ConVar cvGameArenaFirstBlood;
 ConVar cvGameArenaUseQueue;
+ConVar cvGameArenaTeamSize;
 
-int gameRulesEntity = -1;
+/*int gameRulesEntity = -1;*/
+int roundTimeSeconds = 0;
 int gameRoundWinEntity = -1;
 int teamRoundTimerEntity = -1;
-int arenaLogicEntity = -1;
+Handle roundTimer = null;
+/*int arenaLogicEntity = -1;*/
 
 int currentWardenClient = 0;
 Handle wardenDeclareSync = null;
+Handle roundTimerSync = null;
+bool wardenAllowed = false;
 
-Handle freedayClients[MAXPLAYERS + 1] = { null };
+any freedayClients[MAXPLAYERS + 1][5];
+int beamModel = -1;
+int haloModel = -1;

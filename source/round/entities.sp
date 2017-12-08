@@ -1,7 +1,7 @@
 void RemoveCurrentEntities() {
     int ent = -1;
-    /*for(ent = -1; (ent = FindEntityByClassname(ent, "tf_gamerules")) != -1;) AcceptEntityInput(ent, "Kill");*/
-    /*for(ent = -1; (ent = FindEntityByClassname(ent, "game_round_win")) != -1;) AcceptEntityInput(ent, "Kill");*/
+    for(ent = -1; (ent = FindEntityByClassname(ent, "tf_gamerules")) != -1;) AcceptEntityInput(ent, "Kill");
+    for(ent = -1; (ent = FindEntityByClassname(ent, "game_round_win")) != -1;) AcceptEntityInput(ent, "Kill");
     for(ent = -1; (ent = FindEntityByClassname(ent, "team_round_timer")) != -1;) AcceptEntityInput(ent, "Kill");
 }
 
@@ -16,7 +16,7 @@ void CreateGameRules() {
         DispatchSpawn(gre);
     }
 
-    gameRulesEntity = EntIndexToEntRef(gre);
+    /*gameRulesEntity = EntIndexToEntRef(gre);*/
 }
 
 void CreateRoundWin() {
@@ -33,17 +33,10 @@ void CreateRoundWin() {
     gameRoundWinEntity = EntIndexToEntRef(grw);
 }
 
-void CreateRoundTimer() {
-    int trt = CreateEntityByName("team_round_timer");
-    DispatchKeyValueFloat(trt, "timer_length", cvRoundTime.FloatValue);
-    HookSingleEntityOutput(trt, "OnFinished", Event_RoundTimerComplete, false);
-    cvRoundTime.AddChangeHook(Event_RoundTimeChanged);
-    DispatchSpawn(trt);
-    teamRoundTimerEntity = EntIndexToEntRef(trt);
-}
-
 void ModifyArenaRules() {
-    arenaLogicEntity = EntIndexToEntRef(FindEntityByClassname(-1, "tf_logic_arena"));
+    int ale = FindEntityByClassname(-1, "tf_logic_arena");
+    DispatchKeyValueFloat(ale, "CapEnableDelay", -1.0);
+    /*arenaLogicEntity = EntIndexToEntRef(FindEntityByClassname(-1, "tf_logic_arena"));*/
 }
 
 public void Event_RoundTimeChanged(ConVar roundTime, const char[] _o, const char[] _n) {

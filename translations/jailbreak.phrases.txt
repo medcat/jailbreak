@@ -6,21 +6,21 @@ Phrases
         "en"        "{1:s} is now warden!"
     }
 
-    "Jailbreak_Hud_RemoveWarden"
+    "Jailbreak_Hud_NoWarden"
     {
         "en"        "Warden has resigned!"
     }
 
     "Jailbreak_Hud_Timer"
     {
-        "#format"   "{1:d}, {2:02d}"
+        "#format"   "{1:d},{2:02d}"
         "en"        "Time Left: {1}:{2}"
     }
 
     "Jailbreak_NewWarden"
     {
         "#format"   "{1:s}"
-        "en"        "{green}{1}{lightgreen} is now warden!"
+        "en"        "{olive}{1}{lightgreen} is now warden!"
     }
 
     "Jailbreak_GiveWarden_Console"
@@ -63,15 +63,25 @@ Phrases
         "en"    "There is no warden currently."
     }
 
+    "Jailbreak_CheckWarden_OutOfRound"
+    {
+      "en"      "Warden is not currently active; please wait until round starts."
+    }
+
     "Jailbreak_CheckWarden_Found"
     {
         "#format"   "{1:s}"
-        "en"        "{green}{1}{lightgreen} is currently warden."
+        "en"        "{olive}{1}{lightgreen} is currently warden."
     }
 
     "Jailbreak_Admin_ForceWarden_NotFound"
     {
         "en"    "Could not find user, or you can't target them."
+    }
+
+    "Jailbreak_Admin_ForceWarden_OutOfRound"
+    {
+        "en"      "Warden is not currently active; please wait until round starts."
     }
 
     "Jailbreak_Admin_ForceWarden_Success"
@@ -94,14 +104,14 @@ Phrases
         "en"    "You are not allowed to do that."
     }
 
-    "Jailbreak_Warden_FriendlyFire_Enabled"
-    {
-        "en"    "Friendly fire has been enabled!"
-    }
-
     "Jailbreak_Warden_FriendlyFire_Disabled"
     {
         "en"    "Friendly fire has been disabled!"
+    }
+
+    "Jailbreak_Warden_FriendlyFire_Enabled"
+    {
+        "en"    "Friendly fire has been enabled!"
     }
 
     "Jailbreak_Warden_SoftCollisions_Disabled"
@@ -112,5 +122,56 @@ Phrases
     "Jailbreak_Warden_SoftCollisions_Enabled"
     {
         "en"    "The warden has enabled soft collisions."
+    }
+
+    "Jailbreak_Warden_HardCollisions_Disabled"
+    {
+        "en"    "The warden has disabled hard collisions."
+    }
+
+    "Jailbreak_Warden_HardCollisions_Enabled"
+    {
+        "en"    "The warden has enabled hard collisions."
+    }
+
+    "Jailbreak_Admin_ForceFreeday_NotFound"
+    {
+        "en"    "Could not find the given target."
+    }
+
+    "Jailbreak_Admin_ForceFreeday_Already"
+    {
+        "en"    "That target already has a freeday!"
+    }
+
+    "Jailbreak_Admin_ForceFreeday_Success"
+    {
+        "en"    "Success! Gave a freeday to the target."
+    }
+
+    "Jailbreak_Admin_ForceFreeday_Given"
+    {
+        "en"    "Hey! An admin has given you a freeday!"
+    }
+
+    "Jailbreak_Admin_RevokeFreeday_NotFound"
+    {
+        "en"    "Could not find the given target."
+    }
+
+    "Jailbreak_Admin_RevokeFreeday_Success"
+    {
+        "en"    "Success! Removed a freeday from the target."
+    }
+
+    "Jailbreak_Admin_RevokeFreeday_Taken"
+    {
+        "en"    "Hey! An admin has removed your freeday."
+    }
+
+    "Jailbreak_Freeday_Removed"
+    {
+        "#format"   "{1:s}"
+        "en"        "{olive}{1}{lightgreen} has had their freeday removed!"
     }
 }

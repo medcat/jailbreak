@@ -1,5 +1,6 @@
-#include "./commands/warden.sp"
-#include "./commands/warden_actions.sp"
+#include "source/commands/warden.sp"
+#include "source/commands/warden_actions.sp"
+#include "source/commands/freeday.sp"
 
 void InitializeCommands() {
     RegConsoleCmd("sm_jailbreak_warden", Command_GiveWarden, "Requests warden.", FCVAR_NONE);
@@ -24,10 +25,16 @@ void InitializeCommands() {
 
     RegAdminCmd("sm_jailbreak_forcewarden", Command_Admin_ForceWarden, ADMFLAG_KICK, "Forces a user to be warden.", "sm_jailbreak_forcewarden", FCVAR_NONE);
     RegAdminCmd("sm_forcewarden", Command_Admin_ForceWarden, ADMFLAG_KICK, "Forces a user to be warden.", "sm_jailbreak_forcewarden", FCVAR_NONE);
-    RegAdminCmd("sm_fw", Command_Admin_ForceWarden, ADMFLAG_KICK, "Forces a user to be warden.", "sm_jailbreak_forcewarden", FCVAR_NONE);
+    RegAdminCmd("sm_afw", Command_Admin_ForceWarden, ADMFLAG_KICK, "Forces a user to be warden.", "sm_jailbreak_forcewarden", FCVAR_NONE);
     RegAdminCmd("sm_jailbreak_removewarden", Command_Admin_RemoveWarden, ADMFLAG_KICK, "Removes a user from warden.", "sm_jailbreak_removewarden", FCVAR_NONE);
     RegAdminCmd("sm_removewarden", Command_Admin_RemoveWarden, ADMFLAG_KICK, "Removes a user from warden.", "sm_jailbreak_removewarden", FCVAR_NONE);
-    RegAdminCmd("sm_rw", Command_Admin_RemoveWarden, ADMFLAG_KICK, "Removes a user from warden.", "sm_jailbreak_removewarden", FCVAR_NONE);
+    RegAdminCmd("sm_arw", Command_Admin_RemoveWarden, ADMFLAG_KICK, "Removes a user from warden.", "sm_jailbreak_removewarden", FCVAR_NONE);
 
-    RegAdminCmd("sm_jailbreak_forcefreeday", Command_Admin_ForceFreeday, ADMFLAG_SLAY, "", "sm_jailbreak_forcefreeday", FCVAR_NONE);
+    RegAdminCmd("sm_jailbreak_forcefreeday", Command_Admin_ForceFreeday, ADMFLAG_SLAY, "Forces a player into freeday mode.", "sm_jailbreak_forcefreeday", FCVAR_NONE);
+    RegAdminCmd("sm_forcefreeday", Command_Admin_ForceFreeday, ADMFLAG_SLAY, "Forces a player into freeday mode.", "sm_jailbreak_forcefreeday", FCVAR_NONE);
+    RegAdminCmd("sm_aff", Command_Admin_ForceFreeday, ADMFLAG_SLAY, "Forces a player into freeday mode.", "sm_jailbreak_forcefreeday", FCVAR_NONE);
+
+    RegAdminCmd("sm_jailbreak_revokefreeday", Command_Admin_RevokeFreeday, ADMFLAG_SLAY, "Revokes freeday from a player.", "sm_jailbreak_revokefreeday", FCVAR_NONE);
+    RegAdminCmd("sm_revokefreeday", Command_Admin_RevokeFreeday, ADMFLAG_SLAY, "Revokes freeday from a player.", "sm_jailbreak_revokefreeday", FCVAR_NONE);
+    RegAdminCmd("sm_arf", Command_Admin_RevokeFreeday, ADMFLAG_SLAY, "Revokes freeday from a player.", "sm_jailbreak_revokefreeday", FCVAR_NONE);
 }

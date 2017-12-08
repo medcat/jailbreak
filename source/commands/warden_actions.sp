@@ -1,56 +1,76 @@
 public Action Command_Warden_FriendlyFire(int client, int a) {
-    if(GetClientFromSerial(currentWardenClient) != client) {
-        CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_Warden_NotWarden");
-    } else if(cvWardenFriendlyFire.IntValue != 1) {
-        CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_Warden_NotAllowed");
-    } else if(cvGameFriendlyFire.IntValue == 1) {
-        cvGameFriendlyFire.SetInt(false, true, false);
-        cvGameNoHardCollisions.SetBool(true, true, false);
-        cvGameSoftCollisions.SetInt(false, true, false);
-        CPrintToChatAll(JAILBREAK_REPLY, "Jailbreak_Warden_FriendlyFire_Disabled");
+    bool isAdmin = CheckCommandAccess(client, "sm_jailbreak_warden_friendlyfire",
+        ADMFLAG_KICK, false);
+    if(GetClientFromSerial(currentWardenClient) != client && !isAdmin) {
+        CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_Warden_NotWarden",
+            client);
+    } else if(cvWardenFriendlyFire.BoolValue != true && !isAdmin) {
+        CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_Warden_NotAllowed",
+            client);
+    } else if(cvGameFriendlyFire.BoolValue == true) {
+        cvGameFriendlyFire.SetBool(false, true, true);
+        cvGameNoHardCollisions.SetBool(true, true, true);
+        cvGameSoftCollisions.SetBool(false, true, true);
+        CPrintToChatAll(JAILBREAK_REPLY, "Jailbreak_Warden_FriendlyFire_Disabled",
+            LANG_SERVER);
     } else {
-        cvGameFriendlyFire.SetInt(true, true, false);
-        cvGameSoftCollisions.SetInt(true, true, false);
+        cvGameFriendlyFire.SetBool(true, true, true);
+        cvGameSoftCollisions.SetBool(true, true, true);
+        CreateTimer(0.1, Timer_Warden_HardCollisions);
 
-        CPrintToChatAll(JAILBREAK_REPLY, "Jailbreak_Warden_FriendlyFire_Enabled");
+        CPrintToChatAll(JAILBREAK_REPLY, "Jailbreak_Warden_FriendlyFire_Enabled",
+            LANG_SERVER);
     }
 
-    CreateTimer(0.1, Timer_Warden_FriendlyFireCollisions);
     return Plugin_Handled;
 }
 
-public Action Timer_Warden_FriendlyFireCollisions(Handle timer) {
-    cvGameNoHardCollisions.SetBool(false, true, false);
-}
-
 public Action Command_Warden_SoftCollisions(int client, int a) {
-    if(GetClientFromSerial(currentWardenClient) != client) {
-        CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_Warden_NotWarden");
-    } else if(cvWardenSoftCollisions.IntValue != 1) {
-        CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_Warden_NotAllowed");
-    } else if(cvGameSoftCollisions.IntValue == 1) {
-        cvGameSoftCollisions.SetInt(false, true, false);
-        CPrintToChatAll(JAILBREAK_REPLY, "Jailbreak_Warden_SoftCollisions_Disabled");
+    bool isAdmin = CheckCommandAccess(client, "sm_jailbreak_warden_softcollisions",
+        ADMFLAG_KICK, false);
+    if(GetClientFromSerial(currentWardenClient) != client && !isAdmin) {
+        CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_Warden_NotWarden",
+            client);
+    } else if(cvWardenSoftCollisions.BoolValue != true && !isAdmin) {
+        CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_Warden_NotAllowed",
+            client);
+    } else if(cvGameSoftCollisions.BoolValue == true) {
+        cvGameSoftCollisions.SetBool(false, true, true);
+        CPrintToChatAll(JAILBREAK_REPLY, "Jailbreak_Warden_SoftCollisions_Disabled",
+            LANG_SERVER);
     } else {
-        cvGameSoftCollisions.SetInt(true, true, false);
-        CPrintToChatAll(JAILBREAK_REPLY, "Jailbreak_Warden_SoftCollisions_Enabled");
+        cvGameSoftCollisions.SetBool(true, true, true);
+        CPrintToChatAll(JAILBREAK_REPLY, "Jailbreak_Warden_SoftCollisions_Enabled",
+            LANG_SERVER);
     }
 
     return Plugin_Handled;
 }
 
 public Action Command_Warden_HardCollisions(int client, int a) {
-    if(GetClientFromSerial(currentWardenClient) != client) {
-        CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_Warden_NotWarden");
-    } else if(cvWardenHardCollisions.IntValue != 1) {
-        CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_Warden_NotAllowed");
-    } else if(cvGameNoHardCollisions.IntValue == 1) {
-        cvGameNoHardCollisions.SetBool(false, true, false);
-        CPrintToChatAll(JAILBREAK_REPLY, "Jailbreak_Warden_HardCollisions_Enabled");
+    bool isAdmin = CheckCommandAccess(client, "sm_jailbreak_warden_hardcollisions",
+        ADMFLAG_KICK, false);
+    if(GetClientFromSerial(currentWardenClient) != client && !isAdmin) {
+        CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_Warden_NotWarden",
+            client);
+    } else if(cvWardenHardCollisions.BoolValue != true && !isAdmin) {
+        CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_Warden_NotAllowed",
+            client);
+    } else if(cvGameNoHardCollisions.BoolValue == true) {
+        cvGameNoHardCollisions.SetBool(false, true, true);
+        cvGameSoftCollisions.SetBool(true, true, true);
+        CPrintToChatAll(JAILBREAK_REPLY, "Jailbreak_Warden_HardCollisions_Enabled",
+            client);
     } else {
-        cvGameNoHardCollisions.SetBool(true, true, false);
-        CPrintToChatAll(JAILBREAK_REPLY, "Jailbreak_Warden_HardCollisions_Disabled");
+        cvGameSoftCollisions.SetBool(true, true, true);
+        CreateTimer(0.1, Timer_Warden_HardCollisions);
+        CPrintToChatAll(JAILBREAK_REPLY, "Jailbreak_Warden_HardCollisions_Disabled",
+            client);
     }
 
     return Plugin_Handled;
+}
+
+public Action Timer_Warden_HardCollisions(Handle timer) {
+    cvGameNoHardCollisions.SetBool(false, true, false);
 }
