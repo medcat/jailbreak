@@ -7,11 +7,21 @@
 
 #define JAILBREAK_TAG "{lightgreen}[{olive}Jailbreak{lightgreen}] "
 #define JAILBREAK_REPLY "{lightgreen}[{olive}Jailbreak{lightgreen}] %T"
+#define INFINITY view_as<float>(0x7F800000)
 
 stock void Log(const char[] str, any:...) {
     char[] buffer = new char[1024];
     int len = VFormat(buffer, 1024, str, 2);
     LogMessage("%s", buffer);
+}
+
+enum JailbreakRoundType {
+    JailbreakRoundType_Normal,
+    JailbreakRoundType_Command,
+    JailbreakRoundType_FreedayGroup,
+    JailbreakRoundType_FreedayAll,
+    JailbreakRoundType_GuardMeleeOnly,
+    JailbreakRoundType_CustomLastRequest,
 }
 
 #include "./source/plugin.sp"
@@ -38,8 +48,16 @@ public void OnPluginStart() {
     haloModel = PrecacheModel("materials/sprites/halo01.vmt");
     wardenDeclareSync = CreateHudSynchronizer();
     roundTimerSync = CreateHudSynchronizer();
+    roundType = JailbreakRoundType_Normal;
+    nextRoundType = JailbreakRoundType_Normal;
     InitializeCommands();
     InitializeConVars();
+    BuildWardenMenu();
+    BuildLastRequestMenu();
+}
+
+public void OnMapEnd() {
+    CloseHandle(wardenMenu);
 }
 
 public void OnMapStart() {
@@ -50,6 +68,6 @@ public void OnMapStart() {
     ModifyArenaRules();
     HookEvent("arena_round_start", Event_RoundStart, EventHookMode_Pre);
     HookEvent("teamplay_round_win", Event_RoundEnd, EventHookMode_PostNoCopy);
-    HookEvent("player_hurt", Event_PlayerHurt, EventHookMode_Post);
-    HookEvent("player_death", Event_PlayerDeath, EventHookMode_Post);
+    HookEvent("player_hurt", Event_PlayerHurt, EventHookMode_Pre);
+    HookEvent("player_death", Event_PlayerDeath, EventHookMode_Pre);
 }

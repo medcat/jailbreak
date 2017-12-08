@@ -19,6 +19,7 @@ Action Timer_RoundCountDown(Handle _t) {
             ForcePlayerSuicide(i);
         }
 
+        roundTimer = null;
         return Plugin_Stop;
     } else {
         SetHudTextParams(-1.0, 0.10, 5.0, 255, 255, 255, 255, 0, 0.0, 0.0, 0.0);
@@ -29,6 +30,57 @@ Action Timer_RoundCountDown(Handle _t) {
     return Plugin_Continue;
 }
 
+void JailbreakRemoveWeapons(int client, bool permanent) {
+    TFClassType clientClass = TF2_GetPlayerClass(client);
+    TF2_RemoveWeaponSlot(client, TFWeaponSlot_Primary);
+    if(clientClass != TFClass_Spy && clientClass != TFClass_Medic)
+        TF2_RemoveWeaponSlot(client, TFWeaponSlot_Secondary);
+    TF2_RemoveWeaponSlot(client, TFWeaponSlot_Grenade);
+    TF2_RemoveWeaponSlot(client, TFWeaponSlot_Building);
+    TF2_RemoveWeaponSlot(client, TFWeaponSlot_PDA);
+    TF2_RemoveWeaponSlot(client, TFWeaponSlot_Item1);
+    TF2_RemoveWeaponSlot(client, TFWeaponSlot_Item2);
+    EquipPlayerWeapon(client, GetPlayerWeaponSlot(client, 2));
+}
+
+void JailbreakRoundHandleRoundType() {
+    switch(roundType) {
+    case JailbreakRoundType_Normal, JailbreakRoundType_CustomLastRequest: return;
+    case JailbreakRoundType_Command: {
+        if(freedayCommandTarget == 0)
+            ServerCommand("%s", freedayCommand);
+        else {
+            int client;
+            if((client = GetClientFromSerial(freedayCommandTarget)) > 0)
+                ClientCommand(client, "%s", freedayCommand);
+        }
+    }
+    case JailbreakRoundType_FreedayGroup: {
+        char clientName[MAX_NAME_LENGTH];
+        for(int i = 0; i <= MAXPLAYERS; i++) {
+            Log("freeday_group: %u, %u", i, nextFreedays[i]);
+            if(nextFreedays[i] == 0) { nextFreedays[0] = 0; return; }
+            int client = GetClientFromSerial(nextFreedays[i]);
+            Log("freeday_group: %L", client);
+            if(client <= 0 || TF2_GetClientTeam(client) == TFTeam_Blue) continue;
+            Log("freeday_group (proper): %L", client);
+            GetClientName(client, clientName, sizeof(clientName));
+            CPrintToChatAll(JAILBREAK_REPLY, "Jailbreak_Freeday_Given", LANG_SERVER, clientName);
+            GrantFreeday(client);
+        }
+
+        nextFreedays[0] = 0;
+    }
+    case JailbreakRoundType_FreedayAll:
+        CPrintToChatAll(JAILBREAK_REPLY, "Jailbreak_Freeday_GivenAll", LANG_SERVER);
+    case JailbreakRoundType_GuardMeleeOnly:
+        for(int i = 1; i <= MaxClients; i++) {
+            if(IsClientInGame(i) && TF2_GetClientTeam(i) == TFTeam_Blue)
+                JailbreakRemoveWeapons(i, true);
+        }
+    }
+}
+
 public Action Event_RoundStart(Event event, const char[] eventName, bool dontBroadcast) {
     currentWardenClient = 0;
     wardenAllowed = true;
@@ -37,6 +89,13 @@ public Action Event_RoundStart(Event event, const char[] eventName, bool dontBro
     PrepareGameConVars();
     StartJailbreakBalance();
     roundTimer = CreateTimer(1.0, Timer_RoundCountDown, 0, TIMER_REPEAT);
+    roundType = nextRoundType;
+    nextRoundType = JailbreakRoundType_Normal;
+    for(int i = 1; i <= MaxClients; i++) {
+        if(IsClientInGame(i) && TF2_GetClientTeam(i) == TFTeam_Red)
+            JailbreakRemoveWeapons(i, false);
+    }
+    JailbreakRoundHandleRoundType();
     return Plugin_Continue;
 }
 
@@ -44,39 +103,42 @@ public Action Event_RoundEnd(Event event, const char[] eventName, bool dontBroad
     Log("round ended because of %s", eventName);
     StopJailbreakBalance();
     RemoveAllFreedays();
-    CloseHandle(roundTimer);
+    if(roundTimer != null) delete roundTimer;
     Log("round end!");
     wardenAllowed = false;
+    roundType = JailbreakRoundType_Normal;
     return Plugin_Continue;
 }
 
 public Action Event_PlayerDeath(Event event, const char[] eventName, bool dontBroadcast) {
     int userId = event.GetInt("userid");
     int client = GetClientOfUserId(userId);
-    if(IsCurrentWarden() && GetClientFromSerial(currentWardenClient) == client) {
+    if(IsCurrentWarden(client)) {
         RemoveWarden();
     } else if(freedayClients[client][0]) {
         // if, somehow, a freeday dies without loosing their freeday, we need
         // to handle that.  maybe a slay kills them? or they suicide?
         freedayClients[client][0] = false;
-        CloseHandle(freedayClients[client][1]);
+        KillTimer(freedayClients[client][1], false);
     }
 
     return Plugin_Continue;
 }
 
 public Action Event_PlayerHurt(Event event, const char[] eventName, bool dontBroadcast) {
-    int userId = event.GetInt("userid");
+    int userId = event.GetInt("attacker");
     int client = GetClientOfUserId(userId);
+    Log("saw player damage from %L, removing freeday...", client);
     RemoveFreeday(client);
+    return Plugin_Continue;
 }
 
 public void OnClientDisconnect_Post(int client) {
-    if(IsCurrentWarden() && GetClientFromSerial(currentWardenClient) == client) {
+    if(IsCurrentWarden(client)) {
         RemoveWarden();
     } else if(freedayClients[client][0]) {
         freedayClients[client][0] = false;
-        CloseHandle(freedayClients[client][1]);
+        KillTimer(freedayClients[client][1], false);
     }
 }
 

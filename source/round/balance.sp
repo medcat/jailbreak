@@ -23,9 +23,9 @@ stock void JailbreakBalanceMove(int client) {
 }
 
 stock void JailbreakNotifyBalance() {
-    Event event = CreateEvent("teamplay_alert", true);
-    event.SetInt("alert_type", 2);
-    event.Fire(false);
+    /*Event event = CreateEvent("teamplay_alert", true);
+    event.SetInt("alert_type", 0);
+    event.Fire(false);*/
 }
 
 // balances based on score - ping.  If a user is given the

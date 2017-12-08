@@ -1,6 +1,8 @@
 #include "source/commands/warden.sp"
 #include "source/commands/warden_actions.sp"
+#include "source/commands/warden_menu.sp"
 #include "source/commands/freeday.sp"
+#include "source/commands/last_request.sp"
 
 void InitializeCommands() {
     RegConsoleCmd("sm_jailbreak_warden", Command_GiveWarden, "Requests warden.", FCVAR_NONE);
@@ -22,6 +24,13 @@ void InitializeCommands() {
     RegConsoleCmd("sm_jailbreak_warden_hardcollisions", Command_Warden_HardCollisions, "Enable hard collisions as warden.", FCVAR_NONE);
     RegConsoleCmd("sm_warden_hardcollisions", Command_Warden_HardCollisions, "Enable hard collisions as warden.", FCVAR_NONE);
     RegConsoleCmd("sm_whc", Command_Warden_HardCollisions, "Enable hard collisions as warden.", FCVAR_NONE);
+
+    RegConsoleCmd("sm_jailbreak_warden_menu", Command_Warden_Menu, "Opens the warden menu.", FCVAR_NONE);
+    RegConsoleCmd("sm_warden_menu", Command_Warden_Menu, "Opens the warden menu.", FCVAR_NONE);
+    RegConsoleCmd("sm_wm", Command_Warden_Menu, "Opens the warden menu.", FCVAR_NONE);
+    RegConsoleCmd("sm_jailbreak_warden_lastrequest", Command_Warden_LastRequest, "Grants a last request.", FCVAR_NONE);
+    RegConsoleCmd("sm_warden_lastrequest", Command_Warden_LastRequest, "Grants a last request.", FCVAR_NONE);
+    RegConsoleCmd("sm_givelr", Command_Warden_LastRequest, "Grants a last request.", FCVAR_NONE);
 
     RegAdminCmd("sm_jailbreak_forcewarden", Command_Admin_ForceWarden, ADMFLAG_KICK, "Forces a user to be warden.", "sm_jailbreak_forcewarden", FCVAR_NONE);
     RegAdminCmd("sm_forcewarden", Command_Admin_ForceWarden, ADMFLAG_KICK, "Forces a user to be warden.", "sm_jailbreak_forcewarden", FCVAR_NONE);

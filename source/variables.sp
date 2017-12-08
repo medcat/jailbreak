@@ -5,6 +5,7 @@ ConVar cvWardenHardCollisions;
 ConVar cvCriticals;
 ConVar cvBalanceAlgorithm;
 ConVar cvBalanceRatio;
+ConVar cvGroupFreedayCount;
 ConVar cvGameFriendlyFire;
 ConVar cvGameNoHardCollisions;
 ConVar cvGameSoftCollisions;
@@ -26,8 +27,19 @@ Handle roundTimer = null;
 int currentWardenClient = 0;
 Handle wardenDeclareSync = null;
 Handle roundTimerSync = null;
+Menu wardenMenu = null;
 bool wardenAllowed = false;
 
-any freedayClients[MAXPLAYERS + 1][5];
+Menu lastRequestMenu;
+KeyValues lastRequests;
+
 int beamModel = -1;
 int haloModel = -1;
+
+JailbreakRoundType roundType;
+JailbreakRoundType nextRoundType;
+int nextFreedays[MAXPLAYERS + 2] = { 0 };
+any freedayClients[MAXPLAYERS + 1][5];
+char freedayCommand[256];
+int freedayCommandTarget = 0;
+int freedayGroupRemaining = 0;

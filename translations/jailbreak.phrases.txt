@@ -134,6 +134,41 @@ Phrases
         "en"    "The warden has enabled hard collisions."
     }
 
+    "Jailbreak_Warden_Menu_Title"
+    {
+        "en"    "Warden menu:"
+    }
+
+    "Jailbreak_Warden_Menu_DisableFriendlyFire"
+    {
+        "en"    "Disable Friendly Fire"
+    }
+
+    "Jailbreak_Warden_Menu_EnableFriendlyFire"
+    {
+        "en"    "Enable Friendly Fire"
+    }
+
+    "Jailbreak_Warden_Menu_DisableSoftCollisions"
+    {
+        "en"    "Disable Soft Collisions"
+    }
+
+    "Jailbreak_Warden_Menu_EnableSoftCollisions"
+    {
+        "en"    "Enable Soft Collisions"
+    }
+
+    "Jailbreak_Warden_Menu_DisableHardCollisions"
+    {
+        "en"    "Disable Hard Collisions"
+    }
+
+    "Jailbreak_Warden_Menu_EnableHardCollisions"
+    {
+        "en"    "Enable Hard Collisions"
+    }
+
     "Jailbreak_Admin_ForceFreeday_NotFound"
     {
         "en"    "Could not find the given target."
@@ -169,9 +204,112 @@ Phrases
         "en"    "Hey! An admin has removed your freeday."
     }
 
+    "Jailbreak_Freeday_Given"
+    {
+        "#format"   "{1:s}"
+        "en"        "{olive}{1}{lightgreen} has a freeday!"
+    }
+
+    "Jailbreak_Freeday_GivenAll"
+    {
+        "en"        "A freeday has been given to all!"
+    }
+
     "Jailbreak_Freeday_Removed"
     {
         "#format"   "{1:s}"
         "en"        "{olive}{1}{lightgreen} has had their freeday removed!"
+    }
+
+    "Jailbreak_FreedayGroup_Failed"
+    {
+        "en"        "That failed for some reason; maybe try again?"
+    }
+
+    "Jailbreak_FreedayGroup_Already"
+    {
+        "en"        "You've already selected that person for a freeday!"
+    }
+
+    "Jailbreak_FreedayGroup_Gifted"
+    {
+        "#format"   "{1:s}"
+        "en"        "{olive}{1}{lightgreen} has been gifted freeday for next round!"
+    }
+
+    "Jailbreak_FreedayGroup_Done"
+    {
+        "en"        "The freedays have been selected!"
+    }
+
+    "Jailbreak_LastRequest_Title"
+    {
+        "en"        "Choose a last request:"
+    }
+
+    "Jailbreak_LastRequest_Freeday_Single"
+    {
+        "en"        "A freeday for yourself!"
+    }
+
+    "Jailbreak_LastRequest_Freeday_Single_Select"
+    {
+        "#format"   "{1:s}"
+        "en"        "{olive}{1}{lightgreen} has selected a freeday for themselves!"
+    }
+
+    "Jailbreak_LastRequest_Freeday_Group"
+    {
+        "en"        "A freeday for a group!"
+    }
+
+    "Jailbreak_LastRequest_Freeday_Group_Select"
+    {
+        "#format"   "{1:s}"
+        "en"        "{olive}{1}{lightgreen} has selected freedays for a group!"
+    }
+
+    "Jailbreak_LastRequest_Freeday_All"
+    {
+        "en"        "A freeday for all!"
+    }
+
+    "Jailbreak_LastRequest_Freeday_All_Select"
+    {
+        "#format"   "{1:s}"
+        "en"        "{olive}{1}{lightgreen} has selected a freeday for all!"
+    }
+
+    "Jailbreak_LastRequest_Suicide"
+    {
+        "en"        "Suicide!"
+    }
+
+    "Jailbreak_LastRequest_Suicide_Select"
+    {
+        "#format"   "{1:s}"
+        "en"        "{olive}{1}{lightgreen} has selected suicide!"
+    }
+
+    "Jailbreak_LastRequest_Guard_Melee_Only"
+    {
+        "en"        "Guards melee only day!"
+    }
+
+    "Jailbreak_LastRequest_Guard_Melee_Only_Select"
+    {
+        "#format"   "{1:s}"
+        "en"        "{olive}{1}{lightgreen} has selected melee only for guards!"
+    }
+
+    "Jailbreak_LastRequest_Custom_Request"
+    {
+        "en"        "A custom request! (Type it out in chat!)"
+    }
+
+    "Jailbreak_LastRequest_Custom_Request_Select"
+    {
+        "#format"   "{1:s}"
+        "en"        "{olive}{1}{lightgreen} has selected a custom request!"
     }
 }

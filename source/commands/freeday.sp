@@ -4,8 +4,9 @@
 // blueTeamColor = {0x99, 0xcc, 0xff, 0xff};
 
 void GrantFreeday(int clientIndex) {
+    if(freedayClients[clientIndex][0]) return;
     SetEntProp(clientIndex, Prop_Send, "m_bGlowEnabled", 1);
-    TF2_AddCondition(clientIndex, TFCond_UberchargedHidden, TFCondDuration_Infinite, 0);
+    SetEntProp(clientIndex, Prop_Data, "m_takedamage", 0, 1);
     int client = GetClientSerial(clientIndex);
     float pos[3];
     GetClientAbsOrigin(clientIndex, pos);
@@ -25,7 +26,7 @@ public Action Timer_FreedayTrail(Handle timer, int client) {
     float newPos[3];
 
     int clientIndex = GetClientFromSerial(client);
-    if(clientIndex < 1) return Plugin_Stop;
+    if(clientIndex < 1 || !freedayClients[clientIndex][0]) return Plugin_Stop;
 
     oldPos[0] = freedayClients[clientIndex][2];
     oldPos[1] = freedayClients[clientIndex][3];
@@ -50,16 +51,17 @@ public Action Timer_FreedayTrail(Handle timer, int client) {
 }
 
 void RemoveFreeday(int client) {
-    if(freedayClients[client][0]) {
-        freedayClients[client][0] = false;
-        SetEntProp(client, Prop_Send, "m_bGlowEnabled", 0);
-        char name[MAX_NAME_LENGTH];
-        TF2_RemoveCondition(client, TFCond_UberchargedHidden);
-        CloseHandle(freedayClients[client][0]);
-        GetClientName(client, name, sizeof(name));
-        CPrintToChatAll(JAILBREAK_REPLY, "Jailbreak_Freeday_Removed",
-            LANG_SERVER, name);
-    }
+    Log("removing freeday for %L...", client);
+    if(freedayClients[client][0] == false) return;
+    Log("found freeday, removing...");
+    freedayClients[client][0] = false;
+    SetEntProp(client, Prop_Send, "m_bGlowEnabled", 0);
+    SetEntProp(client, Prop_Data, "m_takedamage", 2, 1);
+    char name[MAX_NAME_LENGTH];
+    CloseHandle(freedayClients[client][1]);
+    GetClientName(client, name, sizeof(name));
+    CPrintToChatAll(JAILBREAK_REPLY, "Jailbreak_Freeday_Removed",
+        LANG_SERVER, name);
 }
 
 void InitializeFreeday() {
@@ -124,7 +126,8 @@ public Action Command_Admin_RevokeFreeday(int client, int args) {
         RemoveFreeday(target);
         CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_Admin_RevokeFreeday_Success",
             client);
-        CPrintToChat(target, JAILBREAK_REPLY, "Jailbreak_Admin_RevokeFreeday_Taken");
+        CPrintToChat(target, JAILBREAK_REPLY, "Jailbreak_Admin_RevokeFreeday_Taken",
+            target);
     }
 
     return Plugin_Handled;

@@ -22,7 +22,7 @@
     - [x] trail beam
     - [x] "god mode"
     - [x] loss on attack
-  - [ ] warden
+  - [x] warden
     - [x] claiming
       - [x] base
       - [x] unwarden
@@ -34,6 +34,7 @@
     - [x] collisions
       - [x] soft
       - [x] hard
-    - [ ] menu
+    - [x] menu
     - [x] on leave callback
     - [x] on death callback
+  - [ ] red team get weapon on ammo pickup

@@ -35,7 +35,7 @@ void CreateRoundWin() {
 
 void ModifyArenaRules() {
     int ale = FindEntityByClassname(-1, "tf_logic_arena");
-    DispatchKeyValueFloat(ale, "CapEnableDelay", -1.0);
+    DispatchKeyValueFloat(ale, "CapEnableDelay", 2147483647.0);
     /*arenaLogicEntity = EntIndexToEntRef(FindEntityByClassname(-1, "tf_logic_arena"));*/
 }
 

@@ -1,7 +1,7 @@
 public Action Command_Warden_FriendlyFire(int client, int a) {
     bool isAdmin = CheckCommandAccess(client, "sm_jailbreak_warden_friendlyfire",
         ADMFLAG_KICK, false);
-    if(GetClientFromSerial(currentWardenClient) != client && !isAdmin) {
+    if(!IsCurrentWarden(client) && !isAdmin) {
         CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_Warden_NotWarden",
             client);
     } else if(cvWardenFriendlyFire.BoolValue != true && !isAdmin) {
@@ -28,7 +28,7 @@ public Action Command_Warden_FriendlyFire(int client, int a) {
 public Action Command_Warden_SoftCollisions(int client, int a) {
     bool isAdmin = CheckCommandAccess(client, "sm_jailbreak_warden_softcollisions",
         ADMFLAG_KICK, false);
-    if(GetClientFromSerial(currentWardenClient) != client && !isAdmin) {
+    if(!IsCurrentWarden(client) && !isAdmin) {
         CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_Warden_NotWarden",
             client);
     } else if(cvWardenSoftCollisions.BoolValue != true && !isAdmin) {
@@ -50,7 +50,7 @@ public Action Command_Warden_SoftCollisions(int client, int a) {
 public Action Command_Warden_HardCollisions(int client, int a) {
     bool isAdmin = CheckCommandAccess(client, "sm_jailbreak_warden_hardcollisions",
         ADMFLAG_KICK, false);
-    if(GetClientFromSerial(currentWardenClient) != client && !isAdmin) {
+    if(!IsCurrentWarden(client) && !isAdmin) {
         CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_Warden_NotWarden",
             client);
     } else if(cvWardenHardCollisions.BoolValue != true && !isAdmin) {

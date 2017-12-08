@@ -7,6 +7,7 @@ void InitializeConVars() {
     cvCriticals = CreateConVar("sm_jailbreak_criticals", "2", "Who gets crits? (0 = nobody, 1 = reds, 2 = blues, 3 = all, 4 = warden only)", FCVAR_NOTIFY, true, 0.0, true, 4.0);
     cvBalanceAlgorithm = CreateConVar("sm_jailbreak_balance_algorithm", "1", "The balancing algorithm used. (0 = none, 1 = default)", FCVAR_NOTIFY, true, 0.0, true, 1.0);
     cvBalanceRatio = CreateConVar("sm_jailbreak_balance_ratio", "0.5", "The balance ratio, of blues to reds (blues/reds).", FCVAR_NOTIFY, true, 0.0, true, 3.0);
+    cvGroupFreedayCount = CreateConVar("sm_jailbreak_group_freeday_count", "3", "The number of freedays for a group freeday.", FCVAR_NOTIFY, true, 0.0, true, 32.0);
 
     cvGameFriendlyFire = FindConVar("mp_friendlyfire");
     cvGameNoHardCollisions = FindConVar("tf_avoidteammates");

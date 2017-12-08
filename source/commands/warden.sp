@@ -1,7 +1,11 @@
-stock bool IsCurrentWarden() {
+stock bool IsWardenActive() {
     return currentWardenClient != 0 &&
         GetClientFromSerial(currentWardenClient) != 0 &&
         wardenAllowed;
+}
+
+stock bool IsCurrentWarden(int client) {
+    return IsWardenActive() && GetClientFromSerial(currentWardenClient) == client;
 }
 
 void MakeClientWarden(int client) {
@@ -33,7 +37,7 @@ public Action Command_GiveWarden(int client, int a) {
     } else if(TF2_GetClientTeam(client) != TFTeam_Blue) {
         CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_GiveWarden_MustBlue",
             client);
-    } else if(!IsCurrentWarden()) {
+    } else if(!IsWardenActive()) {
         MakeClientWarden(client);
     } else {
         return Command_CheckWarden(client, 0);
@@ -43,7 +47,7 @@ public Action Command_GiveWarden(int client, int a) {
 }
 
 public Action Command_UnWarden(int client, int a) {
-    if(client != GetClientFromSerial(currentWardenClient) || !wardenAllowed) {
+    if(!IsCurrentWarden(client) || !wardenAllowed) {
         CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_UnWarden_NotWarden",
             client);
     } else {
@@ -59,7 +63,7 @@ public Action Command_CheckWarden(int client, int a) {
     if(!wardenAllowed) {
         CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_CheckWarden_OutOfRound",
             client);
-    } else if(!IsCurrentWarden()) {
+    } else if(!IsWardenActive()) {
         CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_CheckWarden_None",
             client);
     } else {
@@ -96,7 +100,7 @@ public Action Command_Admin_ForceWarden(int client, int args) {
 }
 
 public Action Command_Admin_RemoveWarden(int client, int args) {
-    if(!IsCurrentWarden()) {
+    if(!IsWardenActive()) {
         CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_Admin_RemoveWarden_None",
             client);
     } else {
