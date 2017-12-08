@@ -24,12 +24,12 @@ enum JailbreakRoundType {
     JailbreakRoundType_CustomLastRequest,
 }
 
-#include "./source/plugin.sp"
-#include "./source/variables.sp"
-#include "./source/hud.sp"
-#include "./source/cvar.sp"
-#include "./source/round.sp"
-#include "./source/commands.sp"
+#include "jailbreak/plugin.sp"
+#include "jailbreak/variables.sp"
+#include "jailbreak/hud.sp"
+#include "jailbreak/cvar.sp"
+#include "jailbreak/round.sp"
+#include "jailbreak/commands.sp"
 
 public APLRes AskPluginLoad2(Handle plugin, bool late, char[] error, int err_max) {
     if(late) return APLRes_SilentFailure;
