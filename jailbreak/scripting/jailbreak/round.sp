@@ -8,10 +8,6 @@ Action Timer_RoundCountDown(Handle _t) {
     int minuteLeft = timeLeft / 60;
     int secondLeft = timeLeft % 60;
 
-    SetHudTextParams(-1.0, 0.10, 5.0, 255, 255, 255, 255, 0, 0.0, 0.0, 0.0);
-    ShowSyncHudTextAll(roundTimerSync, "%T", "Jailbreak_Hud_Timer",
-        LANG_SERVER, minuteLeft, secondLeft);
-
     if(timeLeft <= 0) {
         for(int i = 1; i <= MaxClients; i++) {
             if(!IsClientConnected(i) || !IsPlayerAlive(i) ||
@@ -30,7 +26,11 @@ Action Timer_RoundCountDown(Handle _t) {
     return Plugin_Continue;
 }
 
-void JailbreakRemoveWeapons(int client, bool permanent) {
+void JailbreakTemporarilyRemoveWeapons(int client) {
+
+}
+
+void JailbreakPermanentlyRemoveWeapons(int client) {
     TFClassType clientClass = TF2_GetPlayerClass(client);
     TF2_RemoveWeaponSlot(client, TFWeaponSlot_Primary);
     if(clientClass != TFClass_Spy && clientClass != TFClass_Medic)
@@ -41,6 +41,10 @@ void JailbreakRemoveWeapons(int client, bool permanent) {
     TF2_RemoveWeaponSlot(client, TFWeaponSlot_Item1);
     TF2_RemoveWeaponSlot(client, TFWeaponSlot_Item2);
     EquipPlayerWeapon(client, GetPlayerWeaponSlot(client, 2));
+}
+
+void JailbreakRemoveWeapons(int client, bool permanent) {
+    JailbreakPermanentlyRemoveWeapons(client);
 }
 
 void JailbreakRoundHandleRoundType() {
@@ -103,7 +107,7 @@ public Action Event_RoundEnd(Event event, const char[] eventName, bool dontBroad
     Log("round ended because of %s", eventName);
     StopJailbreakBalance();
     RemoveAllFreedays();
-    if(roundTimer != null) delete roundTimer;
+    if(roundTimer != null) CloseHandle(roundTimer);
     Log("round end!");
     wardenAllowed = false;
     roundType = JailbreakRoundType_Normal;

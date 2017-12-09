@@ -38,6 +38,7 @@
     - [x] on leave callback
     - [x] on death callback
   - [ ] red team get weapon on ammo pickup
+  - [ ] round timer +1 for every round (Fix)
 - feature requests:
   - [ ] forwards/natives
   - [ ] map integration
