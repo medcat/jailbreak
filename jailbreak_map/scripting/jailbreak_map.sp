@@ -155,7 +155,7 @@ public Action OnJailbreakRoundStart(Event event, JailbreakRoundType roundType) {
 }
 
 public Action Command_Warden_OpenCells(int client, int a) {
-    bool isAdmin = CheckCommandAccess(client, "sm_jailbreak_warden_closecells",
+    bool isAdmin = CheckCommandAccess(client, "sm_jailbreak_warden_opencells",
         ADMFLAG_KICK, false);
     if(!currentMapSupport) {
         CReplyToCommand(client, "[{silver}Jailbreak{white}] %T",

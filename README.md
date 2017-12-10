@@ -18,3 +18,10 @@ that runs it - have fun with it!  Eventually, I'll include an example of rules
 that you can have for your Jailbreak server here.
 
 For more information, see the [wiki](https://github.com/medcat/jailbreak/wiki).
+
+[ConVars and Server Commands] || [Natives and Forwards] || [Plugins] || [Collisions]
+
+[ConVars and Server Commands]: https://github.com/medcat/jailbreak/wiki/ConVars-and-Server-Commands
+[Natives and Forwards]: https://github.com/medcat/jailbreak/wiki/Natives-and-Forwards
+[Plugins]: https://github.com/medcat/jailbreak/wiki/Plugins
+[Collisions]: https://github.com/medcat/jailbreak/wiki/What-Are-Collisions

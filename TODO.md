@@ -39,8 +39,8 @@
   - [x] red team get weapon on ammo pickup
   - [x] round timer +1 for every round (Fix)
 - feature requests:
-  - [ ] forwards/natives
-  - [ ] map integration
+  - [x] forwards/natives
+  - [x] map integration
   - [ ] more last requests
   - [ ] blue bans
-  - [ ] documentation
+  - [ ] documentation (in progress)
