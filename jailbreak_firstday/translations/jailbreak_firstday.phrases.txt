@@ -1,0 +1,7 @@
+Phrases
+{
+    "Jailbreak_Firstday_Broadcast"
+    {
+        "en"        "First day freeday!"
+    }
+}

@@ -10,7 +10,7 @@ public Plugin myinfo =
     name = "Jailbreak First Day Freeday",
     author = "Jeremy Rodi <me@medcat.me>",
     description = "First day freeday for the jailbreak plugin",
-    version = "1.0",
+    version = "0.1",
     url = "https://github.com/medcat/jailbreak"
 };
 
@@ -18,6 +18,9 @@ bool firstDay = false;
 Handle freedaySync = null;
 
 public void OnPluginStart() {
+    LoadTranslations("jailbreak_firstday.phrases");
+    LoadTranslations("core.phrases");
+    LoadTranslations("common.phrases");
     freedaySync = CreateHudSynchronizer();
     firstDay = true;
 }

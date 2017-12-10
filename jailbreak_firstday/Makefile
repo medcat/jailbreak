@@ -17,10 +17,6 @@ jailbreak_firstday.tar.gz: build
 build: scripting/jailbreak_firstday.smx
 	mkdir -p "build/addons/sourcemod/plugins/"
 	cp "scripting/jailbreak_firstday.smx" "build/addons/sourcemod/plugins/"
-	mkdir -p "build/addons/sourcemod/scripting/include/"
-	cp "scripting/jailbreak_firstday.inc" "build/addons/sourcemod/scripting/include/"
-	mkdir -p "build/addons/sourcemod/configs"
-	cp -a "configs/" "build/addons/sourcemod/configs/"
 	mkdir -p "build/addons/sourcemod/translations"
 	cp -a "translations/" "build/addons/sourcemod/translations/"
 
