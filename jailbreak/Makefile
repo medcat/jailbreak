@@ -1,10 +1,14 @@
 GZIP=-9
 
-.PHONY: all
+.PHONY: all clean
 .DEFAULT: all
+JAILBREAK_SOURCE := $(shell find "scripting/jailbreak/" -name "*.sp")
 
 all: jailbreak.zip jailbreak.tar.gz
-	rm -rf "build/"
+
+clean:
+	rm -rf "build/" "jailbreak.tar.gz" "jailbreak.zip"
+	# rm -rf "scripting/jailbreak.smx"
 
 jailbreak.zip: build
 	cd "build/" && zip -r -9 "jailbreak.zip" "addons/"
@@ -19,10 +23,8 @@ build: scripting/jailbreak.smx
 	cp "scripting/jailbreak.smx" "build/addons/sourcemod/plugins/"
 	mkdir -p "build/addons/sourcemod/scripting/include/"
 	cp "scripting/jailbreak.inc" "build/addons/sourcemod/scripting/include/"
-	mkdir -p "build/addons/sourcemod/configs"
-	cp -a "configs/" "build/addons/sourcemod/configs/"
-	mkdir -p "build/addons/sourcemod/translations"
-	cp -a "translations/" "build/addons/sourcemod/translations/"
+	cp -a "configs/" "build/addons/sourcemod/"
+	cp -a "translations/" "build/addons/sourcemod/"
 
-scripting/jailbreak.smx:
+scripting/jailbreak.smx: scripting/jailbreak.sp ${JAILBREAK_SOURCE}
 	cd "scripting/" && ./spcomp -iinclude jailbreak.sp

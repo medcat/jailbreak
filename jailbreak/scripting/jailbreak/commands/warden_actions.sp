@@ -8,14 +8,14 @@ public Action Command_Warden_FriendlyFire(int client, int a) {
         CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_Warden_NotAllowed",
             client);
     } else if(cvGameFriendlyFire.BoolValue == true) {
-        cvGameFriendlyFire.SetBool(false, true, true);
-        cvGameNoHardCollisions.SetBool(true, true, true);
-        cvGameSoftCollisions.SetBool(false, true, true);
+        cvGameFriendlyFire.SetBool(false, true, false);
+        cvGameNoHardCollisions.SetBool(true, true, false);
+        cvGameSoftCollisions.SetBool(false, true, false);
         CPrintToChatAll(JAILBREAK_REPLY, "Jailbreak_Warden_FriendlyFire_Disabled",
             LANG_SERVER);
     } else {
-        cvGameFriendlyFire.SetBool(true, true, true);
-        cvGameSoftCollisions.SetBool(true, true, true);
+        cvGameFriendlyFire.SetBool(true, true, false);
+        cvGameSoftCollisions.SetBool(true, true, false);
         CreateTimer(0.1, Timer_Warden_HardCollisions);
 
         CPrintToChatAll(JAILBREAK_REPLY, "Jailbreak_Warden_FriendlyFire_Enabled",
@@ -35,11 +35,11 @@ public Action Command_Warden_SoftCollisions(int client, int a) {
         CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_Warden_NotAllowed",
             client);
     } else if(cvGameSoftCollisions.BoolValue == true) {
-        cvGameSoftCollisions.SetBool(false, true, true);
+        cvGameSoftCollisions.SetBool(false, true, false);
         CPrintToChatAll(JAILBREAK_REPLY, "Jailbreak_Warden_SoftCollisions_Disabled",
             LANG_SERVER);
     } else {
-        cvGameSoftCollisions.SetBool(true, true, true);
+        cvGameSoftCollisions.SetBool(true, true, false);
         CPrintToChatAll(JAILBREAK_REPLY, "Jailbreak_Warden_SoftCollisions_Enabled",
             LANG_SERVER);
     }
@@ -56,14 +56,15 @@ public Action Command_Warden_HardCollisions(int client, int a) {
     } else if(cvWardenHardCollisions.BoolValue != true && !isAdmin) {
         CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_Warden_NotAllowed",
             client);
+    // IsHardCollisionOn() { return (cvGameNoHardCollisions.BoolValue == false); }
     } else if(cvGameNoHardCollisions.BoolValue == true) {
-        cvGameNoHardCollisions.SetBool(false, true, true);
-        cvGameSoftCollisions.SetBool(true, true, true);
+        cvGameSoftCollisions.SetBool(true, true, false);
+        CreateTimer(0.1, Timer_Warden_HardCollisions);
         CPrintToChatAll(JAILBREAK_REPLY, "Jailbreak_Warden_HardCollisions_Enabled",
             client);
     } else {
-        cvGameSoftCollisions.SetBool(true, true, true);
-        CreateTimer(0.1, Timer_Warden_HardCollisions);
+        cvGameNoHardCollisions.SetBool(true, true, false);
+        cvGameSoftCollisions.SetBool(false, true, false);
         CPrintToChatAll(JAILBREAK_REPLY, "Jailbreak_Warden_HardCollisions_Disabled",
             client);
     }

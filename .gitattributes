@@ -2,3 +2,5 @@
 * text=auto
 
 jailbreak/scripting/include/* linguist-vendored
+jailbreak_firstday/scripting/include/* linguist-vendored
+jailbreak_map/scripting/include/* linguist-vendored

@@ -20,7 +20,7 @@ Phrases
     "Jailbreak_NewWarden"
     {
         "#format"   "{1:s}"
-        "en"        "{olive}{1}{lightgreen} is now warden!"
+        "en"        "{olive}{1}{white} is now warden!"
     }
 
     "Jailbreak_GiveWarden_Console"
@@ -71,7 +71,7 @@ Phrases
     "Jailbreak_CheckWarden_Found"
     {
         "#format"   "{1:s}"
-        "en"        "{olive}{1}{lightgreen} is currently warden."
+        "en"        "{olive}{1}{white} is currently warden."
     }
 
     "Jailbreak_Admin_ForceWarden_NotFound"
@@ -144,6 +144,21 @@ Phrases
         "en"    "Warden menu:"
     }
 
+    "Jailbreak_Warden_Menu_FriendlyFire"
+    {
+        "en"    "Toggle Friendly Fire"
+    }
+
+    "Jailbreak_Warden_Menu_SoftCollisions"
+    {
+        "en"    "Toggle Soft Collisions"
+    }
+
+    "Jailbreak_Warden_Menu_HardCollisions"
+    {
+        "en"    "Toggle Hard Collisions"
+    }
+
     "Jailbreak_Warden_Menu_DisableFriendlyFire"
     {
         "en"    "Disable Friendly Fire"
@@ -212,7 +227,7 @@ Phrases
     "Jailbreak_Freeday_Given"
     {
         "#format"   "{1:s}"
-        "en"        "{olive}{1}{lightgreen} has a freeday!"
+        "en"        "{olive}{1}{white} has a freeday!"
     }
 
     "Jailbreak_Freeday_GivenAll"
@@ -223,7 +238,7 @@ Phrases
     "Jailbreak_Freeday_Removed"
     {
         "#format"   "{1:s}"
-        "en"        "{olive}{1}{lightgreen} has had their freeday removed!"
+        "en"        "{olive}{1}{white} has had their freeday removed!"
     }
 
     "Jailbreak_FreedayGroup_Failed"
@@ -239,7 +254,7 @@ Phrases
     "Jailbreak_FreedayGroup_Gifted"
     {
         "#format"   "{1:s}"
-        "en"        "{olive}{1}{lightgreen} has been gifted freeday for next round!"
+        "en"        "{olive}{1}{white} has been gifted freeday for next round!"
     }
 
     "Jailbreak_FreedayGroup_Done"
@@ -260,7 +275,7 @@ Phrases
     "Jailbreak_LastRequest_Freeday_Single_Select"
     {
         "#format"   "{1:s}"
-        "en"        "{olive}{1}{lightgreen} has selected a freeday for themselves!"
+        "en"        "{olive}{1}{white} has selected a freeday for themselves!"
     }
 
     "Jailbreak_LastRequest_Freeday_Group"
@@ -271,7 +286,7 @@ Phrases
     "Jailbreak_LastRequest_Freeday_Group_Select"
     {
         "#format"   "{1:s}"
-        "en"        "{olive}{1}{lightgreen} has selected freedays for a group!"
+        "en"        "{olive}{1}{white} has selected freedays for a group!"
     }
 
     "Jailbreak_LastRequest_Freeday_All"
@@ -282,7 +297,7 @@ Phrases
     "Jailbreak_LastRequest_Freeday_All_Select"
     {
         "#format"   "{1:s}"
-        "en"        "{olive}{1}{lightgreen} has selected a freeday for all!"
+        "en"        "{olive}{1}{white} has selected a freeday for all!"
     }
 
     "Jailbreak_LastRequest_Suicide"
@@ -293,7 +308,7 @@ Phrases
     "Jailbreak_LastRequest_Suicide_Select"
     {
         "#format"   "{1:s}"
-        "en"        "{olive}{1}{lightgreen} has selected suicide!"
+        "en"        "{olive}{1}{white} has selected suicide!"
     }
 
     "Jailbreak_LastRequest_Guard_Melee_Only"
@@ -304,7 +319,7 @@ Phrases
     "Jailbreak_LastRequest_Guard_Melee_Only_Select"
     {
         "#format"   "{1:s}"
-        "en"        "{olive}{1}{lightgreen} has selected melee only for guards!"
+        "en"        "{olive}{1}{white} has selected melee only for guards!"
     }
 
     "Jailbreak_LastRequest_Custom_Request"
@@ -315,6 +330,6 @@ Phrases
     "Jailbreak_LastRequest_Custom_Request_Select"
     {
         "#format"   "{1:s}"
-        "en"        "{olive}{1}{lightgreen} has selected a custom request!"
+        "en"        "{olive}{1}{white} has selected a custom request!"
     }
 }

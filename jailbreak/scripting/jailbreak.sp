@@ -9,8 +9,8 @@
 
 #pragma newdecls required
 #pragma semicolon 1
-#define JAILBREAK_TAG "{lightgreen}[{olive}Jailbreak{lightgreen}] "
-#define JAILBREAK_REPLY "{lightgreen}[{olive}Jailbreak{lightgreen}] %T"
+#define JAILBREAK_TAG "[{silver}Jailbreak{white}] "
+#define JAILBREAK_REPLY "[{silver}Jailbreak{white}] %T"
 #define INFINITY view_as<float>(0x7F800000)
 
 stock void Log(const char[] str, any ...) {

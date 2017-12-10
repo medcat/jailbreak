@@ -8,6 +8,7 @@ void CreateNatives() {
     CreateNative("Jailbreak_GetWarden", Native_JailbreakGetWarden);
     CreateNative("Jailbreak_SetWarden", Native_JailbreakSetWarden);
     CreateNative("Jailbreak_ClearWarden", Native_JailbreakClearWarden);
+    CreateNative("Jailbreak_IsClientWarden", Native_JailbreakIsWarden);
     CreateNative("Jailbreak_GetRoundType", Native_JailbreakGetRoundType);
     CreateNative("Jailbreak_GetNextRoundType", Native_JailbreakGetNextRoundType);
     CreateNative("Jailbreak_SetNextRoundType", Native_JailbreakSetNextRoundType);
@@ -84,6 +85,12 @@ public int Native_JailbreakClearWarden(Handle plugin, int numParams) {
     if(!wardenAllowed) return false;
     RemoveWarden();
     return (currentWardenClient == 0);
+}
+
+public int Native_JailbreakIsWarden(Handle plugin, int numParams) {
+    int client = GetNativeCell(1);
+    if(!IsClientInGame(client) || !IsPlayerAlive(client)) return false;
+    return IsCurrentWarden(client);
 }
 
 public int Native_JailbreakGetRoundType(Handle plugin, int numParams) {

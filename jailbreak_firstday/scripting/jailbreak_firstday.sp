@@ -10,7 +10,7 @@ public Plugin myinfo =
     name = "Jailbreak First Day Freeday",
     author = "Jeremy Rodi <me@medcat.me>",
     description = "First day freeday for the jailbreak plugin",
-    version = "0.1",
+    version = "0.2.0",
     url = "https://github.com/medcat/jailbreak"
 };
 
@@ -27,7 +27,7 @@ public void OnPluginStart() {
 
 public Action OnJailbreakPreBalance(JailbreakRoundType currentRoundType) {
     if(currentRoundType == JailbreakRoundType_Normal && firstDay) {
-        Jailbreak_SetNextRoundType(JailbreakRoundType_Normal);
+        Jailbreak_SetNextRoundType(JailbreakRoundType_FreedayAll);
         firstDay = false;
         SetHudTextParams(-1.0, 0.25, 5.0, 255, 255, 255, 125, 0, 0.0, 0.0, 0.0);
         for(int i = 1; i <= MaxClients; i++) {
