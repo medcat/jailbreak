@@ -1,8 +1,8 @@
 build/
 reference/
-jailbreak.smx
-jailbreak.tar.gz
-jailbreak.zip
+*.smx
+*.tar.gz
+*.zip
 spcomp
 *.exe
 .DS_Store

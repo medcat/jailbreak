@@ -79,7 +79,7 @@ public Action Event_RoundStart(Event event, const char[] eventName, bool dontBro
     if(Jailbreak_TriggerPreBalance(roundType) == Plugin_Continue)
         StartJailbreakBalance();
     roundType = nextRoundType;
-    roundTimer = CreateTimer(cvRoundTime.FloatValue - 0.1, Event_TimerRoundEnd);
+    /*roundTimer = CreateTimer(cvRoundTime.FloatValue - 0.1, Event_TimerRoundEnd);*/
     nextRoundType = JailbreakRoundType_Normal;
     for(int i = 1; i <= MaxClients; i++) {
         if(IsClientInGame(i) && IsPlayerAlive(i) && TF2_GetClientTeam(i) == TFTeam_Red)
@@ -89,7 +89,7 @@ public Action Event_RoundStart(Event event, const char[] eventName, bool dontBro
     return Jailbreak_TriggerRoundStart(event, roundType);
 }
 
-public Action Event_TimerRoundEnd(Handle timer) {
+/*public Action Event_TimerRoundEnd(Handle timer) {
     Log("Event_TimerRoundEnd");
     roundTimer = null;
     for(int i = 1; i < MaxClients; i++) {
@@ -97,14 +97,14 @@ public Action Event_TimerRoundEnd(Handle timer) {
             ForcePlayerSuicide(i);
     }
     return Plugin_Stop;
-}
+}*/
 
 public Action Event_RoundEnd(Event event, const char[] eventName, bool dontBroadcast) {
     Log("round ended because of %s!", eventName);
     if(wardenAllowed) {
         StopJailbreakBalance();
         RemoveAllFreedays(true);
-        if(roundTimer != null) roundTimer.Close();
+        /*if(roundTimer != null) roundTimer.Close();*/
         wardenAllowed = false;
         JailbreakRoundType oldRoundType = roundType;
         roundType = JailbreakRoundType_Normal;

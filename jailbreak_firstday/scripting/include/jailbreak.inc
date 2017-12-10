@@ -3,6 +3,34 @@
 #endif
 #define _jailbreak_included
 
+public SharedPlugin __pl_jailbreak =
+{
+    name = "jailbreak",
+    file = "jailbreak.smx",
+#if defined REQUIRE_PLUGIN
+    required = 1,
+#else
+    required = 0,
+#endif
+};
+
+#if !defined REQUIRE_PLUGIN
+public void __pl_jailbreak_SetNTVOptional()
+{
+    MarkNativeAsOptional("Jailbreak_GetWardenMenu");
+    MarkNativeAsOptional("Jailbreak_GetLastRequestMenu");
+    MarkNativeAsOptional("Jailbreak_GiveFreeday");
+    MarkNativeAsOptional("Jailbreak_RemoveFreeday");
+    MarkNativeAsOptional("Jailbreak_AddFreeday");
+    MarkNativeAsOptional("Jailbreak_IsClientFreeday");
+    MarkNativeAsOptional("Jailbreak_GetWarden");
+    MarkNativeAsOptional("Jailbreak_SetWarden");
+    MarkNativeAsOptional("Jailbreak_GetRoundType");
+    MarkNativeAsOptional("Jailbreak_GetNextRoundType");
+    MarkNativeAsOptional("Jailbreak_SetNextRoundType");
+}
+#endif
+
 /**
  * What type of round the round should be.  This is used in order to determine
  * how a previous last request should be handled.
@@ -261,6 +289,15 @@ native int Jailbreak_GetWarden();
  *       					on blue team; or if it is out-of-round.
  */
 native bool Jailbreak_SetWarden(int client);
+
+/**
+ * Attempts to clear the current warden.  An attempt to clear the warden
+ * out-of-round will fail.  This may be blocked by the
+ * `OnJailbreakRemoveWarden` forward.
+ *
+ * @return					True if warden was cleared successfully, false otherwise.
+ */
+native bool Jailbreak_ClearWarden();
 
 /**
  * Retrieves the current round type.

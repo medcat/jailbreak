@@ -18,7 +18,7 @@ ConVar cvGameArenaUseQueue;
 ConVar cvGameArenaTeamSize;
 ConVar cvGameArenaRoundTime;
 
-Handle roundTimer = null;
+/*Handle roundTimer = null;*/
 
 int currentWardenClient = 0;
 Handle wardenDeclareSync = null;

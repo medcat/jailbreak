@@ -60,12 +60,6 @@ public void OnPluginStart() {
     nextRoundType = JailbreakRoundType_Normal;
     InitializeCommands();
     InitializeConVars();
-    BuildWardenMenu();
-    BuildLastRequestMenu();
-}
-
-public void OnMapEnd() {
-    wardenMenu.Close();
 }
 
 public void OnEntityCreated(int entity, const char[] classname) {
@@ -79,6 +73,8 @@ public void OnEntityCreated(int entity, const char[] classname) {
 
 public void OnMapStart() {
     InitializeFreeday();
+    BuildWardenMenu();
+    BuildLastRequestMenu();
     JailbreakHandleEntities();
     HookEvent("round_start", Event_RoundStart, EventHookMode_Pre);
     HookEvent("arena_round_start", Event_RoundStart, EventHookMode_Pre);

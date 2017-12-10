@@ -29,7 +29,7 @@ void PrepareGameConVars() {
     cvGameAutoTeamBalance.SetBool(false, true, false);
     cvGameScrambleTeamsAuto.SetBool(false, true, false);
     cvGameStalemateEnable.SetBool(false, true, false);
-    cvGameTeamsUnbalanceLimit.SetInt(32, true, false);
+    cvGameTeamsUnbalanceLimit.SetInt(MAXPLAYERS, true, false);
     cvGameArenaFirstBlood.SetBool(false, true, false);
     cvGameArenaUseQueue.SetBool(false, true, false);
     cvGameArenaTeamSize.SetInt(MAXPLAYERS, true, false);

@@ -17,11 +17,4 @@ The actual rules and implementation of Jailbreak completely depends on the serve
 that runs it - have fun with it!  Eventually, I'll include an example of rules
 that you can have for your Jailbreak server here.
 
-## ConVars
-
-Jailbreak has quite a few ConVars to control what can happen for every round.
-Here are all of the ConVars available for use:
-
-### `sm_jailbreak_round_time`
-This is the round time for every day.  If the timer ends before the round has
-ended naturally (e.g. everyone is alive), the round ends in a stalemate.
+For more information, see the [wiki](https://github.com/medcat/jailbreak/wiki).

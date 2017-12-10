@@ -46,7 +46,7 @@ void JailbreakBalanceDefault() {
 
     for(int i = 1; i <= MaxClients; i++) {
         if(IsClientInGame(i) && TF2_GetClientTeam(i) == TFTeam_Blue &&
-            !CheckCommandAccess(i, "sm_jailbreak_balance_override", ADMFLAG_ROOT, false)) {
+            !CheckCommandAccess(i, "sm_jailbreak_balance", ADMFLAG_ROOT, false)) {
             Log("marking player %L as movable.", i);
             clients[clientsLength++] = i;
         }

@@ -7,6 +7,7 @@ void CreateNatives() {
     CreateNative("Jailbreak_IsClientFreeday", Native_JailbreakIsFreeday);
     CreateNative("Jailbreak_GetWarden", Native_JailbreakGetWarden);
     CreateNative("Jailbreak_SetWarden", Native_JailbreakSetWarden);
+    CreateNative("Jailbreak_ClearWarden", Native_JailbreakClearWarden);
     CreateNative("Jailbreak_GetRoundType", Native_JailbreakGetRoundType);
     CreateNative("Jailbreak_GetNextRoundType", Native_JailbreakGetNextRoundType);
     CreateNative("Jailbreak_SetNextRoundType", Native_JailbreakSetNextRoundType);
@@ -77,6 +78,12 @@ public int Native_JailbreakSetWarden(Handle plugin, int numParams) {
     RemoveWarden();
     if(currentWardenClient == 0) MakeClientWarden(client);
     return (currentWardenClient == GetClientSerial(client));
+}
+
+public int Native_JailbreakClearWarden(Handle plugin, int numParams) {
+    if(!wardenAllowed) return false;
+    RemoveWarden();
+    return (currentWardenClient == 0);
 }
 
 public int Native_JailbreakGetRoundType(Handle plugin, int numParams) {

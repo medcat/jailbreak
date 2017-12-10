@@ -1,17 +1,5 @@
 .DEFAULT: all
-.PHONY: all clean
-
-SOURCE_FILES := \
-	source/commands/warden_actions.sp \
-	source/commands/warden_menu.sp \
-	source/commands/warden.sp \
-	source/round/entities.sp \
-	source/balance.sp \
-	source/commands.sp \
-	source/cvar.sp \
-	source/hud.sp \
-	source/plugin.sp \
-	source/round.sp
+.PHONY: all jailbreak jailbreak_firstday
 
 PLATFORM := unknown
 ifeq ($(OS),Windows_NT)
@@ -26,29 +14,27 @@ else
 	endif
 endif
 SOURCEMOD ?= 1.8-6036
+GZIP := -9
 
-all: jailbreak.zip
-clean:
-	rm -rf jailbreak.zip jailbreak.smx jailbreak.tar.gz build
+all: jailbreak_complete jailbreak jailbreak_firstday
 
-jailbreak.zip: jailbreak.smx build
-	cd "build/" && zip -9 -r "jailbreak.zip" .
-	cp "build/jailbreak.zip" "jailbreak.zip"
+jailbreak:
+	$(MAKE) -C "jailbreak/" all
+	cp "jailbreak/jailbreak.zip" "jailbreak/jailbreak.tar.gz" .
 
-jailbreak.tar.gz: jailbreak.smx build
-	tar -czf "$@" -C "build/" .
+jailbreak_complete: jailbreak jailbreak_firstday
+	mkdir "build/"
+	cp "jailbreak.tar.gz" "jailbreak_firstday.tar.gz" "build/"
+	cd "build/" && tar -xf "jailbreak.tar.gz" && tar -xf "jailbreak_firstday.tar.gz"
+	cd "build/" && zip -r -9 "jailbreak_complete.zip" "addons/"
+	cd "build/" && tar -caf "jailbreak_complete.tar.gz" "addons/"
+	cp "build/jailbreak_complete.zip" "jailbreak_complete.zip"
+	cp "build/jailbreak_complete.tar.gz" "jailbreak_complete.tar.gz"
+	rm -rf "build/"
 
-build:
-	mkdir -p "build/addons/sourcemod/plugins/"
-	mkdir -p "build/addons/sourcemod/translations/"
-	cp jailbreak.smx "build/addons/sourcemod/plugins/"
-	cp translations/* "build/addons/sourcemod/translations/"
-
-jailbreak.smx: jailbreak.sp spcomp
-	./spcomp -iinclude $<
-
-jailbreak.sp: ${SOURCE_FILES}
-	@touch "$@"
+jailbreak_firstday:
+	$(MAKE) -C "jailbreak_firstday/" all
+	cp "jailbreak_firstday/jailbreak_firstday.zip" "jailbreak_firstday/jailbreak_firstday.tar.gz" .
 
 spcomp:
 	wget "https://dl.retroc.at/sourcemod/${SOURCEMOD}/${PLATFORM}/scripting/spcomp"
