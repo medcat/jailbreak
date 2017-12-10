@@ -25,4 +25,4 @@ build: scripting/jailbreak.smx
 	cp -a "translations/" "build/addons/sourcemod/translations/"
 
 scripting/jailbreak.smx:
-	cd "scripting/" && ./compile -iinclude jailbreak.sp
+	cd "scripting/" && ./spcomp -iinclude jailbreak.sp

@@ -25,4 +25,4 @@ build: scripting/jailbreak_firstday.smx
 	cp -a "translations/" "build/addons/sourcemod/translations/"
 
 scripting/jailbreak_firstday.smx:
-	cd "scripting/" && ./compile -iinclude jailbreak_firstday.sp
+	cd "scripting/" && ./spcomp -iinclude jailbreak_firstday.sp
