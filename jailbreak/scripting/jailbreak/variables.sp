@@ -16,17 +16,12 @@ ConVar cvGameTeamsUnbalanceLimit;
 ConVar cvGameArenaFirstBlood;
 ConVar cvGameArenaUseQueue;
 ConVar cvGameArenaTeamSize;
+ConVar cvGameArenaRoundTime;
 
-/*int gameRulesEntity = -1;*/
-int roundTimeSeconds = 0;
-int gameRoundWinEntity = -1;
-int teamRoundTimerEntity = -1;
 Handle roundTimer = null;
-/*int arenaLogicEntity = -1;*/
 
 int currentWardenClient = 0;
 Handle wardenDeclareSync = null;
-Handle roundTimerSync = null;
 Menu wardenMenu = null;
 bool wardenAllowed = false;
 
@@ -43,3 +38,13 @@ any freedayClients[MAXPLAYERS + 1][5];
 char freedayCommand[256];
 int freedayCommandTarget = 0;
 int freedayGroupRemaining = 0;
+
+// forwards
+Handle forwardRoundStart = null;
+Handle forwardPreBalance = null;
+Handle forwardRoundEnd = null;
+Handle forwardLastRequest = null;
+Handle forwardGiveFreeday = null;
+Handle forwardRemoveFreeday = null;
+Handle forwardGiveWarden = null;
+Handle forwardRemoveWarden = null;

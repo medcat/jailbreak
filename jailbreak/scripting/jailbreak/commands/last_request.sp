@@ -80,6 +80,8 @@ public int Menu_LastRequest(Menu menu, MenuAction action, int client, int item) 
         int style;
         menu.GetItem(item, info, sizeof(info), style, display, sizeof(display));
 
+        if(Jailbreak_TriggerLastRequest(client, info, display) != Plugin_Continue) return 0;
+
         Log("item found: '%s'", info);
         if(!lastRequests.GotoFirstSubKey()) { lastRequests.Rewind(); return 0; }
         Log("going to item in file...");
@@ -119,6 +121,8 @@ public int Menu_FreedayGroup(Menu menu, MenuAction action, int client, int item)
             menu.Display(client, MENU_TIME_FOREVER);
             return 0;
         }
+
+        target = GetClientSerial(target);
 
         for(int i = 0; i < MAXPLAYERS + 1; i++) {
             if(nextFreedays[i] != 0) continue;

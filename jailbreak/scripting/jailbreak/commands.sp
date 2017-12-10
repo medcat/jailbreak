@@ -1,8 +1,8 @@
-#include "source/commands/warden.sp"
-#include "source/commands/warden_actions.sp"
-#include "source/commands/warden_menu.sp"
-#include "source/commands/freeday.sp"
-#include "source/commands/last_request.sp"
+#include "jailbreak/commands/warden.sp"
+#include "jailbreak/commands/warden_actions.sp"
+#include "jailbreak/commands/warden_menu.sp"
+#include "jailbreak/commands/freeday.sp"
+#include "jailbreak/commands/last_request.sp"
 
 void InitializeCommands() {
     RegConsoleCmd("sm_jailbreak_warden", Command_GiveWarden, "Requests warden.", FCVAR_NONE);

@@ -1,4 +1,3 @@
-- [ ] what are the default gamemode rules?
 - [x] round management?
   - [x] team ratio
   - [x] timer
@@ -37,8 +36,8 @@
     - [x] menu
     - [x] on leave callback
     - [x] on death callback
-  - [ ] red team get weapon on ammo pickup
-  - [ ] round timer +1 for every round (Fix)
+  - [x] red team get weapon on ammo pickup
+  - [x] round timer +1 for every round (Fix)
 - feature requests:
   - [ ] forwards/natives
   - [ ] map integration

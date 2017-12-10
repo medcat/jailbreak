@@ -4,5 +4,6 @@ jailbreak.smx
 jailbreak.tar.gz
 jailbreak.zip
 spcomp
-spcomp.exe
+*.exe
 .DS_Store
+compile.bat

@@ -8,25 +8,29 @@ stock bool IsCurrentWarden(int client) {
     return IsWardenActive() && GetClientFromSerial(currentWardenClient) == client;
 }
 
-void MakeClientWarden(int client) {
-    currentWardenClient = GetClientSerial(client);
-    char cName[32];
-    GetClientName(client, cName, sizeof(cName));
-    CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_GiveWarden_Success",
-        client);
-    CPrintToChatAll(JAILBREAK_REPLY, "Jailbreak_NewWarden", LANG_SERVER, cName);
-    SetHudTextParams(-1.0, 0.75, 5.0, 255, 255, 255, 125, 0, 0.0, 0.0, 0.0);
-    ShowSyncHudTextAll(wardenDeclareSync, "%T", "Jailbreak_Hud_NewWarden",
-        LANG_SERVER, cName);
+void MakeClientWarden(int client, bool force = false) {
+    if(Jailbreak_TriggerGiveWarden(client, force) == Plugin_Continue || force) {
+        currentWardenClient = GetClientSerial(client);
+        char cName[32];
+        GetClientName(client, cName, sizeof(cName));
+        CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_GiveWarden_Success",
+            client);
+        CPrintToChatAll(JAILBREAK_REPLY, "Jailbreak_NewWarden", LANG_SERVER, cName);
+        SetHudTextParams(-1.0, 0.75, 5.0, 255, 255, 255, 125, 0, 0.0, 0.0, 0.0);
+        ShowSyncHudTextAll(wardenDeclareSync, "%T", "Jailbreak_Hud_NewWarden",
+            LANG_SERVER, cName);
+    }
 }
 
-void RemoveWarden() {
-    currentWardenClient = 0;
-    CPrintToChatAll(JAILBREAK_REPLY, "Jailbreak_UnWarden_WardenRemoved",
-        LANG_SERVER);
-    SetHudTextParams(-1.0, 0.75, 5.0, 255, 255, 255, 125, 0, 0.0, 0.0, 0.0);
-    ShowSyncHudTextAll(wardenDeclareSync, "%T", "Jailbreak_Hud_NoWarden",
-        LANG_SERVER);
+void RemoveWarden(bool force = false) {
+    if(Jailbreak_TriggerRemoveWarden(GetClientFromSerial(currentWardenClient), force) == Plugin_Continue || force) {
+        currentWardenClient = 0;
+        CPrintToChatAll(JAILBREAK_REPLY, "Jailbreak_UnWarden_WardenRemoved",
+            LANG_SERVER);
+        SetHudTextParams(-1.0, 0.75, 5.0, 255, 255, 255, 125, 0, 0.0, 0.0, 0.0);
+        ShowSyncHudTextAll(wardenDeclareSync, "%T", "Jailbreak_Hud_NoWarden",
+            LANG_SERVER);
+    }
 }
 
 public Action Command_GiveWarden(int client, int a) {
@@ -92,8 +96,11 @@ public Action Command_Admin_ForceWarden(int client, int args) {
     } else if(!wardenAllowed) {
         CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_Admin_ForceWarden_OutOfRound",
             client);
+    } else if(TF2_GetClientTeam(targetClient) != TFTeam_Blue) {
+        CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_Admin_ForceWarden_MustBlue",
+            client);
     } else {
-        MakeClientWarden(targetClient);
+        MakeClientWarden(targetClient, true);
     }
 
     return Plugin_Handled;
@@ -104,7 +111,7 @@ public Action Command_Admin_RemoveWarden(int client, int args) {
         CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_Admin_RemoveWarden_None",
             client);
     } else {
-        RemoveWarden();
+        RemoveWarden(true);
     }
 
     return Plugin_Handled;

@@ -19,17 +19,19 @@ void InitializeConVars() {
     cvGameArenaFirstBlood = FindConVar("tf_arena_first_blood");
     cvGameArenaUseQueue = FindConVar("tf_arena_use_queue");
     cvGameArenaTeamSize = FindConVar("tf_arena_override_team_size");
+    cvGameArenaRoundTime = FindConVar("tf_arena_round_time");
 }
 
 void PrepareGameConVars() {
-    cvGameFriendlyFire.SetBool(false, true, true);
-    cvGameNoHardCollisions.SetBool(true, true, true);
-    cvGameSoftCollisions.SetBool(true, true, true);
-    cvGameAutoTeamBalance.SetBool(false, true, true);
-    cvGameScrambleTeamsAuto.SetBool(false, true, true);
-    cvGameStalemateEnable.SetBool(false, true, true);
-    cvGameTeamsUnbalanceLimit.SetInt(32, true, true);
-    cvGameArenaFirstBlood.SetBool(false, true, true);
-    cvGameArenaUseQueue.SetBool(false, true, true);
-    cvGameArenaTeamSize.SetInt(MAXPLAYERS, true, true);
+    cvGameFriendlyFire.SetBool(false, true, false);
+    cvGameNoHardCollisions.SetBool(true, true, false);
+    cvGameSoftCollisions.SetBool(false, true, false);
+    cvGameAutoTeamBalance.SetBool(false, true, false);
+    cvGameScrambleTeamsAuto.SetBool(false, true, false);
+    cvGameStalemateEnable.SetBool(false, true, false);
+    cvGameTeamsUnbalanceLimit.SetInt(32, true, false);
+    cvGameArenaFirstBlood.SetBool(false, true, false);
+    cvGameArenaUseQueue.SetBool(false, true, false);
+    cvGameArenaTeamSize.SetInt(MAXPLAYERS, true, false);
+    cvGameArenaRoundTime.SetInt(cvRoundTime.IntValue, true, false);
 }
