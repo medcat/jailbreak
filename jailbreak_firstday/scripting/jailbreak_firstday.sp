@@ -10,7 +10,7 @@ public Plugin myinfo =
     name = "Jailbreak First Day Freeday",
     author = "Jeremy Rodi <me@medcat.me>",
     description = "First day freeday for the jailbreak plugin",
-    version = "0.2.0",
+    version = "0.2.1",
     url = "https://github.com/medcat/jailbreak"
 };
 

@@ -11,7 +11,7 @@ public Plugin myinfo =
     name = "Jailbreak Map Integrations",
     author = "Jeremy Rodi <me@medcat.me>",
     description = "Map integrations for the jailbreak plugin",
-    version = "0.2.0",
+    version = "0.2.1",
     url = "https://github.com/medcat/jailbreak"
 };
 

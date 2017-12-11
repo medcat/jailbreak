@@ -4,10 +4,17 @@
 void JailbreakTemporarilyRemoveWeapons(int client) {
 #pragma newdecls optional
     LOOP_CLIENTWEAPONS(client, weapon, index) {
-        Weapon_SetClips(weapon, 0, 0);
+        if(Weapon_GetPrimaryClip(weapon) != -1) Weapon_SetPrimaryClip(weapon, 0);
+        if(Weapon_GetSecondaryClip(weapon) != -1) Weapon_SetSecondaryClip(weapon, 0);
         Client_SetWeaponPlayerAmmoEx(client, weapon, 0, 0);
     }
 #pragma newdecls required
+
+    EquipPlayerWeapon(client, GetPlayerWeaponSlot(client, 2));
+    TF2_RemoveWeaponSlot(client, 3);
+    TF2_RemoveWeaponSlot(client, 4);
+    TF2_RemoveWeaponSlot(client, 5);
+    TF2_RemovePlayerDisguise(client);
 }
 
 void JailbreakPermanentlyRemoveWeapons(int client) {
@@ -20,7 +27,7 @@ void JailbreakPermanentlyRemoveWeapons(int client) {
     TF2_RemoveWeaponSlot(client, TFWeaponSlot_PDA);
     TF2_RemoveWeaponSlot(client, TFWeaponSlot_Item1);
     TF2_RemoveWeaponSlot(client, TFWeaponSlot_Item2);
-    EquipPlayerWeapon(client, GetPlayerWeaponSlot(client, 2));
+    EquipPlayerWeapon(client, GetPlayerWeaponSlot(client, TFWeaponSlot_Melee));
 }
 
 void JailbreakRemoveWeapons(int client, bool permanent) {
