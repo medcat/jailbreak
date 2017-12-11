@@ -14,7 +14,7 @@ jailbreak_firstday.zip: build
 	cp "build/jailbreak_firstday.zip" "jailbreak_firstday.zip"
 
 jailbreak_firstday.tar.gz: build
-	cd "build/" && tar -caf "jailbreak_firstday.tar.gz" "addons/"
+	cd "build/" && $(TAR) -caf "jailbreak_firstday.tar.gz" "addons/"
 	cp "build/jailbreak_firstday.tar.gz" "jailbreak_firstday.tar.gz"
 
 build: scripting/jailbreak_firstday.smx

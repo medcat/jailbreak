@@ -15,7 +15,7 @@ jailbreak.zip: build
 	cp "build/jailbreak.zip" "jailbreak.zip"
 
 jailbreak.tar.gz: build
-	cd "build/" && tar -caf "jailbreak.tar.gz" "addons/"
+	cd "build/" && $(TAR) -caf "jailbreak.tar.gz" "addons/"
 	cp "build/jailbreak.tar.gz" "jailbreak.tar.gz"
 
 build: scripting/jailbreak.smx

@@ -14,7 +14,7 @@ jailbreak_map.zip: build
 	cp "build/jailbreak_map.zip" "jailbreak_map.zip"
 
 jailbreak_map.tar.gz: build
-	cd "build/" && tar -caf "jailbreak_map.tar.gz" "addons/"
+	cd "build/" && $(TAR) -caf "jailbreak_map.tar.gz" "addons/"
 	cp "build/jailbreak_map.tar.gz" "jailbreak_map.tar.gz"
 
 build: scripting/jailbreak_map.smx
