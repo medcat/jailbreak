@@ -1,0 +1,22 @@
+"Phrases"
+{
+    "Jailbreak_Map_Incompatible"
+    {
+        "en"        "This map is currently incompatible with the jailbreak plugin."
+    }
+
+    "Jailbreak_Map_NotAllowed"
+    {
+        "en"        "You are not the warden!"
+    }
+
+    "Jailbreak_Warden_Menu_OpenCells"
+    {
+        "en"        "Open Cells"
+    }
+
+    "Jailbreak_Warden_Menu_CloseCells"
+    {
+        "en"        "Close Cells"
+    }
+}

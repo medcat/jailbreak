@@ -4,6 +4,7 @@
 #include <tf2_stocks>
 #include <morecolors>
 #include <jailbreak>
+#include <jailbreak/map>
 #include <smlib/entities>
 
 public Plugin myinfo =
@@ -21,9 +22,20 @@ Handle cellOpenTimer = null;
 char currentMapName[126];
 bool currentMapSupport = false;
 
+Handle forwardMapEvent = null;
+
 #define JAILBREAK_MAP_INITIALIZE "Initialize"
 #define JAILBREAK_MAP_CELLS_OPEN "Cells_Open"
 #define JAILBREAK_MAP_CELLS_CLOSE "Cells_Close"
+
+public APLRes AskPluginLoad2(Handle plugin, bool late, char[] error, int err_max) {
+    CreateNative("Jailbreak_TriggerMapEvent", Native_JailbreakTriggerMapEvent);
+    CreateNative("Jailbreak_TriggerMapEventEx", Native_JailbreakTriggerMapEventEx);
+    forwardMapEvent = CreateGlobalForward("OnTriggerMapEvent", ET_Event,
+        Param_Cell);
+    RegPluginLibrary("jailbreak_map");
+    return APLRes_Success;
+}
 
 public void OnPluginStart() {
     char path[PLATFORM_MAX_PATH];
@@ -74,15 +86,17 @@ bool PositionMapKeyValueToCurrentMap() {
     }
 }
 
-void TriggerJailbreakMapEvent(const char[] event) {
+bool TriggerJailbreakMapEvent(const char[] event) {
     char entityName[256];
     char entityInput[256];
     char sectionName[256];
     bool found;
 
     LogMessage("triggering %s for %s...", event, currentMapName);
-    if(!currentMapSupport) return;
+    if(!currentMapSupport) return false;
     mapKeyValue.SavePosition();
+
+    if(Jailbreak_MapEvent(event) != Plugin_Continue) return false;
 
     do {
         mapKeyValue.GetSectionName(sectionName, sizeof(sectionName));
@@ -92,8 +106,8 @@ void TriggerJailbreakMapEvent(const char[] event) {
         }
     } while(mapKeyValue.GotoNextKey());
 
-    if(!found) { mapKeyValue.GoBack(); return; }
-    if(!mapKeyValue.GotoFirstSubKey()) { mapKeyValue.GoBack(); return; }
+    if(!found) { mapKeyValue.GoBack(); return false; }
+    if(!mapKeyValue.GotoFirstSubKey()) { mapKeyValue.GoBack(); return false; }
 
     do {
         mapKeyValue.GetString("Name", entityName, sizeof(entityName), "");
@@ -110,6 +124,8 @@ void TriggerJailbreakMapEvent(const char[] event) {
 
     mapKeyValue.GoBack();
     mapKeyValue.GoBack();
+
+    return true;
 }
 
 void AddItemsToWardenMenu() {
@@ -188,4 +204,37 @@ public Action Command_Warden_CloseCells(int client, int a) {
     if(cellOpenTimer != null) { cellOpenTimer.Close(); cellOpenTimer = null; }
     TriggerJailbreakMapEvent(JAILBREAK_MAP_CELLS_CLOSE);
     return Plugin_Handled;
+}
+
+public int Native_JailbreakTriggerMapEvent(Handle plugin, int numParams) {
+    JailbreakMapEvent mapEvent = view_as<JailbreakMapEvent>(GetNativeCell(1));
+    switch(mapEvent) {
+        case JailbreakMapEvent_Initialize:
+            return TriggerJailbreakMapEvent(JAILBREAK_MAP_INITIALIZE);
+        case JailbreakMapEvent_OpenCells:
+            return TriggerJailbreakMapEvent(JAILBREAK_MAP_CELLS_OPEN);
+        case JailbreakMapEvent_CloseCells:
+            return TriggerJailbreakMapEvent(JAILBREAK_MAP_CELLS_CLOSE);
+    }
+
+    ThrowNativeError(105, "Unknown map event given!");
+    return false;
+}
+
+public int Native_JailbreakTriggerMapEventEx(Handle plugin, int numParams) {
+     int stringLength;
+     GetNativeStringLength(1, stringLength);
+     char[] stringEvent = new char[stringLength];
+     GetNativeString(1, stringEvent, stringLength);
+
+     return TriggerJailbreakMapEvent(stringEvent);
+}
+
+Action Jailbreak_MapEvent(const char[] mapEvent) {
+    Action result;
+
+    Call_StartForward(forwardMapEvent);
+    Call_PushString(mapEvent);
+    if(Call_Finish(result) != SP_ERROR_NONE) ThrowError("TriggerMapEventEx forward failed!");
+    return result;
 }

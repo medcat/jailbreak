@@ -6,7 +6,7 @@ GZIP=-9
 all: jailbreak_map.zip jailbreak_map.tar.gz
 
 clean:
-	rm -rf "build/" "jailbreak_map.tar.gz" "jailbreak_map.zip"
+	$(RM) -r "build/" "jailbreak_map.tar.gz" "jailbreak_map.zip"
 	# rm -rf "scripting/jailbreak_map.smx"
 
 jailbreak_map.zip: build
@@ -24,4 +24,4 @@ build: scripting/jailbreak_map.smx
 	cp -a "configs/" "build/addons/sourcemod/"
 
 scripting/jailbreak_map.smx: scripting/jailbreak_map.sp
-	cd "scripting/" && ./spcomp -iinclude jailbreak_map.sp
+	cd "scripting/" && $(SPCOMP) $(SPFLAGS) jailbreak_map.sp

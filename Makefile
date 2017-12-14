@@ -20,6 +20,8 @@ endif
 
 export TAR
 export GZIP
+export SPCOMP := "$(abspath spcomp)"
+export SPFLAGS := "-i$(abspath include/common)" "-i$(abspath include/jailbreak)"
 SOURCEMOD ?= 1.8-6036
 COMPLETE_TARS := jailbreak.tar.gz \
 	jailbreak_firstday.tar.gz \
@@ -38,11 +40,12 @@ jailbreak:
 	cp "jailbreak/jailbreak.zip" "jailbreak/jailbreak.tar.gz" .
 
 jailbreak_complete: jailbreak jailbreak_firstday jailbreak_map
-	mkdir "build/"
+	mkdir -p "build/"
 	cp ${COMPLETE_TARS} "build/"
 	cd "build/" && for file in $(COMPLETE_TARS); do $(TAR) -xf "$$file"; done
 	cd "build/" && zip -r -9 "jailbreak_complete.zip" "addons/"
 	cd "build/" && $(TAR) -caf "jailbreak_complete.tar.gz" "addons/"
+	cp -a "include/jailbreak/jailbreak.inc" "include/jailbreak/jailbreak/" "build/addons/sourcemod/scripting/include/"
 	cp "build/jailbreak_complete.zip" "jailbreak_complete.zip"
 	cp "build/jailbreak_complete.tar.gz" "jailbreak_complete.tar.gz"
 

@@ -6,7 +6,7 @@ GZIP=-9
 all: jailbreak_firstday.zip jailbreak_firstday.tar.gz
 
 clean:
-	rm -rf "build/" "jailbreak_firstday.tar.gz" "jailbreak_firstday.zip"
+	$(RM) -r "build/" "jailbreak_firstday.tar.gz" "jailbreak_firstday.zip"
 	# rm -rf "scripting/jailbreak_firstday.smx"
 
 jailbreak_firstday.zip: build
@@ -23,4 +23,4 @@ build: scripting/jailbreak_firstday.smx
 	cp -a "translations/" "build/addons/sourcemod/"
 
 scripting/jailbreak_firstday.smx: scripting/jailbreak_firstday.sp
-	cd "scripting/" && ./spcomp -iinclude jailbreak_firstday.sp
+	cd "scripting/" && $(SPCOMP) $(SPFLAGS) jailbreak_firstday.sp
