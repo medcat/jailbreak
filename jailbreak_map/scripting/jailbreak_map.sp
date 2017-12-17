@@ -12,7 +12,7 @@ public Plugin myinfo =
     name = "Jailbreak Map Integrations",
     author = "Jeremy Rodi <me@medcat.me>",
     description = "Map integrations for the jailbreak plugin",
-    version = "0.2.1",
+    version = "0.3.0",
     url = "https://github.com/medcat/jailbreak"
 };
 
@@ -44,7 +44,7 @@ public void OnPluginStart() {
     mapKeyValue = new KeyValues("Jailbreak_Maps");
     BuildPath(Path_SM, path, sizeof(path), "configs/jailbreak/maps.cfg");
     if(!mapKeyValue.ImportFromFile(path)) ThrowError("Could not find the maps file!");
-    cvOpenCellTime = CreateConVar("sm_jailbreak_open_cells_time", "60", "The time to open cells at, in seconds.", FCVAR_NOTIFY, true, -1.0, true, 60.0 * 30.0);
+    cvOpenCellTime = CreateConVar("sm_jailbreak_open_cells_time", "600", "The time to open cells at, in seconds.", FCVAR_NOTIFY, true, -1.0, true, 60.0 * 30.0);
 
     RegConsoleCmd("sm_jailbreak_warden_opencells", Command_Warden_OpenCells, "Opens the cell doors.", FCVAR_NONE);
     RegConsoleCmd("sm_warden_opencells", Command_Warden_OpenCells, "Opens the cell doors.", FCVAR_NONE);

@@ -1,5 +1,5 @@
 .DEFAULT: all
-.PHONY: all clean jailbreak jailbreak_firstday jailbreak_map
+.PHONY: all clean jailbreak jailbreak_firstday jailbreak_map jailbreak_teamban
 
 PLATFORM := unknown
 TAR := tar
@@ -26,21 +26,23 @@ SOURCEMOD ?= 1.8-6036
 COMPLETE_TARS := jailbreak.tar.gz \
 	jailbreak_firstday.tar.gz \
 	jailbreak_map.tar.gz \
+	jailbreak_teamban.tar.gz \
 
-all: jailbreak_complete jailbreak jailbreak_firstday jailbreak_map
+all: jailbreak_complete jailbreak jailbreak_firstday jailbreak_map jailbreak_teamban
 
 clean:
 	$(MAKE) -C "jailbreak/" clean
 	$(MAKE) -C "jailbreak_firstday/" clean
 	$(MAKE) -C "jailbreak_map/" clean
+	$(MAKE) -C "jailbreak_teamban/" clean
 	rm -rf "build/" "jailbreak_complete.tar.gz" "jailbreak_complete.zip" $(COMPLETE_TARS) $(COMPLETE_TARS:%.tar.gz=%.zip)
 
 jailbreak:
 	$(MAKE) -C "jailbreak/" all
 	cp "jailbreak/jailbreak.zip" "jailbreak/jailbreak.tar.gz" .
 
-jailbreak_complete: jailbreak jailbreak_firstday jailbreak_map
-	mkdir -p "build/"
+jailbreak_complete: jailbreak jailbreak_firstday jailbreak_map jailbreak_teamban
+	mkdir -p "build/addons/sourcemod/scripting/include/"
 	cp ${COMPLETE_TARS} "build/"
 	cd "build/" && for file in $(COMPLETE_TARS); do $(TAR) -xf "$$file"; done
 	cd "build/" && zip -r -9 "jailbreak_complete.zip" "addons/"
@@ -56,6 +58,10 @@ jailbreak_firstday:
 jailbreak_map:
 	$(MAKE) -C "jailbreak_map/" all
 	cp "jailbreak_map/jailbreak_map.zip" "jailbreak_map/jailbreak_map.tar.gz" .
+
+jailbreak_teamban:
+	$(MAKE) -C "jailbreak_teamban/" all
+	cp "jailbreak_teamban/jailbreak_teamban.zip" "jailbreak_teamban/jailbreak_teamban.tar.gz" .
 
 spcomp:
 	wget "https://dl.retroc.at/sourcemod/${SOURCEMOD}/${PLATFORM}/scripting/spcomp"

@@ -21,7 +21,6 @@ build: scripting/jailbreak_teamban.smx
 	mkdir -p "build/addons/sourcemod/plugins/"
 	cp "scripting/jailbreak_teamban.smx" "build/addons/sourcemod/plugins/"
 	cp -a "translations/" "build/addons/sourcemod/"
-	cp -a "configs/" "build/addons/sourcemod/"
 
 scripting/jailbreak_teamban.smx: scripting/jailbreak_teamban.sp
 	cd "scripting/" && $(SPCOMP) $(SPFLAGS) jailbreak_teamban.sp

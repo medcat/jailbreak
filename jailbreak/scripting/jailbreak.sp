@@ -13,6 +13,16 @@
 #define JAILBREAK_REPLY "[{silver}Jailbreak{white}] %T"
 #define INFINITY view_as<float>(0x7F800000)
 
+public Plugin myinfo =
+{
+    name = "Jailbreak",
+    author = "Jeremy Rodi <me@medcat.me>",
+    description = "Jailbreak, for Team Fortress 2",
+    version = "0.3.0",
+    url = "https://github.com/medcat/jailbreak"
+};
+
+
 stock void Log(const char[] str, any ...) {
     char[] buffer = new char[1024];
     VFormat(buffer, 1024, str, 2);
@@ -29,7 +39,6 @@ enum JailbreakRoundType {
     JailbreakRoundType_CustomLastRequest,
 }
 
-#include "jailbreak/plugin.sp"
 #include "jailbreak/variables.sp"
 #include "jailbreak/forwards.sp"
 #include "jailbreak/natives.sp"
@@ -37,6 +46,7 @@ enum JailbreakRoundType {
 #include "jailbreak/cvar.sp"
 #include "jailbreak/round.sp"
 #include "jailbreak/commands.sp"
+#include "jailbreak/targets.sp"
 
 public APLRes AskPluginLoad2(Handle plugin, bool late, char[] error, int err_max) {
     CreateForwards();
@@ -60,6 +70,7 @@ public void OnPluginStart() {
     nextRoundType = JailbreakRoundType_Normal;
     InitializeCommands();
     InitializeConVars();
+    AddTargetFilters();
 }
 
 public void OnEntityCreated(int entity, const char[] classname) {
@@ -85,6 +96,6 @@ public void OnMapStart() {
     HookEvent("teamplay_win_panel", Event_RoundEnd, EventHookMode_PostNoCopy);
     HookEvent("arena_win_panel", Event_RoundEnd, EventHookMode_PostNoCopy);
     HookEvent("player_hurt", Event_PlayerHurt, EventHookMode_Pre);
-    HookEvent("player_death", Event_PlayerDeath, EventHookMode_Pre);
+    HookEvent("player_death", Event_PlayerSpawn, EventHookMode_Pre);
     HookEvent("player_spawn", Event_PlayerDeath, EventHookMode_Post);
 }

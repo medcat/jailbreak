@@ -42,5 +42,5 @@
   - [x] forwards/natives
   - [x] map integration
   - [ ] more last requests
-  - [ ] blue bans
+  - [x] blue bans
   - [ ] documentation (in progress)

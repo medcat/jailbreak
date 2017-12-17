@@ -1,22 +1,24 @@
 "Phrases"
 {
-    "Jailbreak_Map_Incompatible"
+    "Jailbreak_Teamban_NoLength"
     {
-        "en"        "This map is currently incompatible with the jailbreak plugin."
+        "en"        "The length of time for the teamban was invalid."
     }
 
-    "Jailbreak_Map_NotAllowed"
+    "Jailbreak_Teamban_NotConnected"
     {
-        "en"        "You are not the warden!"
+        "en"        "The teamban plugin is not connected to the database yet.  Try again later."
     }
 
-    "Jailbreak_Warden_Menu_OpenCells"
+    "Jailbreak_Teamban_SuccessfulBan"
     {
-        "en"        "Open Cells"
+        "#format"   "{1:s}"
+        "en"        "{1:s} has been successfully teambanned."
     }
 
-    "Jailbreak_Warden_Menu_CloseCells"
+    "Jailbreak_Teamban_SuccessfulUnBan"
     {
-        "en"        "Close Cells"
+        "#format"   "{1:s}"
+        "en"        "{1:s} has been successfully unteambanned."
     }
 }

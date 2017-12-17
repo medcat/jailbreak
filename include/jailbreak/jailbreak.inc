@@ -3,6 +3,9 @@
 #endif
 #define _jailbreak_included
 
+#define JAILBREAK_TAG "[{silver}Jailbreak{white}] "
+#define JAILBREAK_REPLY "[{silver}Jailbreak{white}] %T"
+
 public SharedPlugin __pl_jailbreak =
 {
     name = "jailbreak",
