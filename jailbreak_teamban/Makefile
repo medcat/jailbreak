@@ -6,8 +6,8 @@ GZIP=-9
 all: jailbreak_teamban.zip jailbreak_teamban.tar.gz
 
 clean:
-	rm -rf "build/" "jailbreak_teamban.tar.gz" "jailbreak_teamban.zip"
-	# rm -rf "scripting/jailbreak_teamban.smx"
+	$(RM) -r "build/" "jailbreak_teamban.tar.gz" "jailbreak_teamban.zip"
+	$(RM) -r "scripting/jailbreak_teamban.smx"
 
 jailbreak_teamban.zip: build
 	cd "build/" && zip -r -9 "jailbreak_teamban.zip" "addons/"

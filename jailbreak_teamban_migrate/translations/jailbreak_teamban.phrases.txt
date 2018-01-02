@@ -1,0 +1,24 @@
+"Phrases"
+{
+    "Jailbreak_Teamban_NoLength"
+    {
+        "en"        "The length of time for the teamban was invalid."
+    }
+
+    "Jailbreak_Teamban_NotConnected"
+    {
+        "en"        "The teamban plugin is not connected to the database yet.  Try again later."
+    }
+
+    "Jailbreak_Teamban_SuccessfulBan"
+    {
+        "#format"   "{1:s}"
+        "en"        "{1:s} has been successfully teambanned."
+    }
+
+    "Jailbreak_Teamban_SuccessfulUnBan"
+    {
+        "#format"   "{1:s}"
+        "en"        "{1:s} has been successfully unteambanned."
+    }
+}

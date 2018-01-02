@@ -7,7 +7,7 @@ all: jailbreak_map.zip jailbreak_map.tar.gz
 
 clean:
 	$(RM) -r "build/" "jailbreak_map.tar.gz" "jailbreak_map.zip"
-	# rm -rf "scripting/jailbreak_map.smx"
+	$(RM) -r "scripting/jailbreak_map.smx"
 
 jailbreak_map.zip: build
 	cd "build/" && zip -r -9 "jailbreak_map.zip" "addons/"

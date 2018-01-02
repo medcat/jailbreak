@@ -4,8 +4,10 @@
 void JailbreakTemporarilyRemoveWeapons(int client) {
 #pragma newdecls optional
     LOOP_CLIENTWEAPONS(client, weapon, index) {
-        if(Weapon_GetPrimaryClip(weapon) != -1) Weapon_SetPrimaryClip(weapon, 0);
-        if(Weapon_GetSecondaryClip(weapon) != -1) Weapon_SetSecondaryClip(weapon, 0);
+        if(Weapon_GetPrimaryClip(weapon) != -1)
+            SetEntProp(weapon, Prop_Send, "m_iClip1", 0); //Weapon_SetPrimaryClip(weapon, 0);
+        if(Weapon_GetSecondaryClip(weapon) != -1)
+            SetEntProp(weapon, Prop_Send, "m_iClip2", 0); //Weapon_SetSecondaryClip(weapon, 0);
         Client_SetWeaponPlayerAmmoEx(client, weapon, 0, 0);
     }
 #pragma newdecls required
@@ -77,14 +79,17 @@ void JailbreakRoundHandleRoundType() {
     }
 }
 
+public Action Event_RoundStartPre(Event event, const char[] eventName, bool dontBroadcast) {
+    Log("round start pre!");
+    JailbreakHandleEntities();
+    PrepareGameConVars();
+}
+
 public Action Event_RoundStart(Event event, const char[] eventName, bool dontBroadcast) {
     currentWardenClient = 0;
     wardenAllowed = true;
     Log("round start!");
-    /*JailbreakHandleEntities();*/
-    PrepareGameConVars();
-    if(Jailbreak_TriggerPreBalance(roundType) == Plugin_Continue)
-        StartJailbreakBalance();
+    if(Jailbreak_TriggerPreBalance(roundType) == Plugin_Continue) StartJailbreakBalance();
     roundType = nextRoundType;
     /*roundTimer = CreateTimer(cvRoundTime.FloatValue - 0.1, Event_TimerRoundEnd);*/
     nextRoundType = JailbreakRoundType_Normal;
@@ -142,10 +147,11 @@ public Action Event_PlayerHurt(Event event, const char[] eventName, bool dontBro
 
 public Action Event_PlayerSpawn(Event event, const char[] eventName, bool dontBroadcast) {
     int client = GetClientOfUserId(event.GetInt("userid"));
-    TFTeam team = view_as<TFTeam>(event.GetInt("team"));
-
-    if(team == TFTeam_Red)
+    Log("saw client %L spawn.", client);
+    if(TF2_GetClientTeam(client) == TFTeam_Red) {
+        Log("removing client %L's weapons on spawn.", client);
         JailbreakRemoveWeapons(client, false);
+    }
 
     return Plugin_Continue;
 }

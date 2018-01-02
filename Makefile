@@ -1,5 +1,5 @@
 .DEFAULT: all
-.PHONY: all clean jailbreak jailbreak_firstday jailbreak_map jailbreak_teamban
+.PHONY: all clean jailbreak jailbreak_firstday jailbreak_map jailbreak_teamban jailbreak_teamban_migrate
 
 PLATFORM := unknown
 TAR := tar
@@ -28,14 +28,15 @@ COMPLETE_TARS := jailbreak.tar.gz \
 	jailbreak_map.tar.gz \
 	jailbreak_teamban.tar.gz \
 
-all: jailbreak_complete jailbreak jailbreak_firstday jailbreak_map jailbreak_teamban
+all: jailbreak_complete jailbreak jailbreak_firstday jailbreak_map jailbreak_teamban jailbreak_teamban_migrate
 
 clean:
 	$(MAKE) -C "jailbreak/" clean
 	$(MAKE) -C "jailbreak_firstday/" clean
 	$(MAKE) -C "jailbreak_map/" clean
 	$(MAKE) -C "jailbreak_teamban/" clean
-	rm -rf "build/" "jailbreak_complete.tar.gz" "jailbreak_complete.zip" $(COMPLETE_TARS) $(COMPLETE_TARS:%.tar.gz=%.zip)
+	$(MAKE) -C "jailbreak_teamban_migrate/" clean
+	rm -rf "build/" "jailbreak_complete.tar.gz" "jailbreak_complete.zip" $(COMPLETE_TARS) $(COMPLETE_TARS:%.tar.gz=%.zip) "jailbreak_teamban_migrate.tar.gz" "jailbreak_teamban_migrate.zip"
 
 jailbreak:
 	$(MAKE) -C "jailbreak/" all
@@ -62,6 +63,10 @@ jailbreak_map:
 jailbreak_teamban:
 	$(MAKE) -C "jailbreak_teamban/" all
 	cp "jailbreak_teamban/jailbreak_teamban.zip" "jailbreak_teamban/jailbreak_teamban.tar.gz" .
+
+jailbreak_teamban_migrate:
+	$(MAKE) -C "jailbreak_teamban_migrate/" all
+	cp "jailbreak_teamban_migrate/jailbreak_teamban_migrate.zip" "jailbreak_teamban_migrate/jailbreak_teamban_migrate.tar.gz" .
 
 spcomp:
 	wget "https://dl.retroc.at/sourcemod/${SOURCEMOD}/${PLATFORM}/scripting/spcomp"

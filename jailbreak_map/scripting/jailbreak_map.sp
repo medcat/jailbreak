@@ -22,7 +22,7 @@ Handle cellOpenTimer = null;
 char currentMapName[126];
 bool currentMapSupport = false;
 
-Handle forwardMapEvent = null;
+/* Handle forwardMapEvent = null; */
 
 #define JAILBREAK_MAP_INITIALIZE "Initialize"
 #define JAILBREAK_MAP_CELLS_OPEN "Cells_Open"
@@ -31,8 +31,8 @@ Handle forwardMapEvent = null;
 public APLRes AskPluginLoad2(Handle plugin, bool late, char[] error, int err_max) {
     CreateNative("Jailbreak_TriggerMapEvent", Native_JailbreakTriggerMapEvent);
     CreateNative("Jailbreak_TriggerMapEventEx", Native_JailbreakTriggerMapEventEx);
-    forwardMapEvent = CreateGlobalForward("OnTriggerMapEvent", ET_Event,
-        Param_Cell);
+    /* forwardMapEvent = CreateGlobalForward("OnTriggerMapEvent", ET_Event,
+        Param_String); */
     RegPluginLibrary("jailbreak_map");
     return APLRes_Success;
 }
@@ -231,10 +231,11 @@ public int Native_JailbreakTriggerMapEventEx(Handle plugin, int numParams) {
 }
 
 Action Jailbreak_MapEvent(const char[] mapEvent) {
-    Action result;
-
+    /* Action result;
+    LogMessage("forwardMapEvent: %x, mapEvent: %x", forwardMapEvent, mapEvent);
     Call_StartForward(forwardMapEvent);
     Call_PushString(mapEvent);
     if(Call_Finish(result) != SP_ERROR_NONE) ThrowError("TriggerMapEventEx forward failed!");
-    return result;
+    return result; */
+    return Plugin_Continue;
 }

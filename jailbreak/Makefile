@@ -8,7 +8,7 @@ all: jailbreak.zip jailbreak.tar.gz
 
 clean:
 	$(RM) -r "build/" "jailbreak.tar.gz" "jailbreak.zip"
-	# rm -rf "scripting/jailbreak.smx"
+	$(RM) -r "scripting/jailbreak.smx"
 
 jailbreak.zip: build
 	cd "build/" && zip -r -9 "jailbreak.zip" "addons/"

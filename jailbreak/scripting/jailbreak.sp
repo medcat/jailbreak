@@ -87,15 +87,18 @@ public void OnMapStart() {
     BuildWardenMenu();
     BuildLastRequestMenu();
     JailbreakHandleEntities();
-    HookEvent("round_start", Event_RoundStart, EventHookMode_Pre);
+    /* HookEvent("round_start", Event_RoundStart, EventHookMode_Pre);
     HookEvent("arena_round_start", Event_RoundStart, EventHookMode_Pre);
     HookEvent("round_end", Event_RoundEnd, EventHookMode_PostNoCopy);
     HookEvent("tf_game_over", Event_RoundEnd, EventHookMode_PostNoCopy);
     HookEvent("teamplay_round_win", Event_RoundEnd, EventHookMode_PostNoCopy);
     HookEvent("teamplay_game_over", Event_RoundEnd, EventHookMode_PostNoCopy);
     HookEvent("teamplay_win_panel", Event_RoundEnd, EventHookMode_PostNoCopy);
-    HookEvent("arena_win_panel", Event_RoundEnd, EventHookMode_PostNoCopy);
+    HookEvent("arena_win_panel", Event_RoundEnd, EventHookMode_PostNoCopy); */
+    HookEvent("teamplay_round_start", Event_RoundStartPre, EventHookMode_Pre);
+    HookEvent("arena_round_start", Event_RoundStart, EventHookMode_Pre);
+    HookEvent("teamplay_round_win", Event_RoundEnd, EventHookMode_PostNoCopy);
     HookEvent("player_hurt", Event_PlayerHurt, EventHookMode_Pre);
-    HookEvent("player_death", Event_PlayerSpawn, EventHookMode_Pre);
-    HookEvent("player_spawn", Event_PlayerDeath, EventHookMode_Post);
+    HookEvent("player_spawn", Event_PlayerSpawn, EventHookMode_Pre);
+    HookEvent("player_death", Event_PlayerDeath, EventHookMode_Post);
 }

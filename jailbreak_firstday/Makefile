@@ -7,7 +7,7 @@ all: jailbreak_firstday.zip jailbreak_firstday.tar.gz
 
 clean:
 	$(RM) -r "build/" "jailbreak_firstday.tar.gz" "jailbreak_firstday.zip"
-	# rm -rf "scripting/jailbreak_firstday.smx"
+	$(RM) -r "scripting/jailbreak_firstday.smx"
 
 jailbreak_firstday.zip: build
 	cd "build/" && zip -r -9 "jailbreak_firstday.zip" "addons/"
