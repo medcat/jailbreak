@@ -63,8 +63,6 @@ public void OnPluginStart() {
     LoadTranslations("jailbreak.phrases");
     LoadTranslations("core.phrases");
     LoadTranslations("common.phrases");
-    beamModel = PrecacheModel("materials/sprites/laser.vmt");
-    haloModel = PrecacheModel("materials/sprites/halo01.vmt");
     wardenDeclareSync = CreateHudSynchronizer();
     roundType = JailbreakRoundType_Normal;
     nextRoundType = JailbreakRoundType_Normal;

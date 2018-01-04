@@ -10,24 +10,59 @@ public Action Command_Warden_LastRequest(int client, int args) {
             client);
     }
 
-    if(args != 1) {
+    if(args > 1) {
         PrintToConsole(client, "Usage: sm_givelr <client>");
         return Plugin_Handled;
     }
 
-    char target[MAX_NAME_LENGTH];
-    GetCmdArg(1, target, sizeof(target));
-    int targetClient = FindTarget(client, target, true, true);
+    if(args == 1) {
+        char target[MAX_NAME_LENGTH];
+        GetCmdArg(1, target, sizeof(target));
+        int targetClient = FindTarget(client, target, true, true);
 
-    if(targetClient < 1) {
-        CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_Warden_LastRequest_NotFound",
-            client);
+        if(targetClient < 1) {
+            CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_Warden_LastRequest_NotFound",
+                client);
+        } else {
+            GrantLastRequest(targetClient);
+        }
     } else {
-        GrantLastRequest(targetClient);
+        BuildLastRequestSelectMenu().Display(client, MENU_TIME_FOREVER);
     }
 
     return Plugin_Handled;
+}
 
+Menu BuildLastRequestSelectMenu() {
+    Menu freedayGroupMenu = new Menu(Menu_LastRequestSelect);
+    char playerName[MAX_NAME_LENGTH];
+    char playerIndex[16];
+
+    for(int i = 1; i <= MaxClients; i++) {
+        if(!IsClientInGame(i)) continue;
+        IntToString(GetClientSerial(i), playerIndex, sizeof(playerIndex));
+        GetClientName(i, playerName, sizeof(playerName));
+        freedayGroupMenu.AddItem(playerIndex, playerName);
+    }
+
+    return freedayGroupMenu;
+}
+
+public int Menu_LastRequestSelect(Menu menu, MenuAction action, int client, int item) {
+    if(action == MenuAction_Select) {
+        char info[16];
+        char display[MAX_NAME_LENGTH];
+        int style;
+        int target;
+        menu.GetItem(item, info, sizeof(info), style, display, sizeof(display));
+        target = StringToInt(info);
+        target = GetClientFromSerial(target);
+        if(target <= 1) return 0;
+        GrantLastRequest(target);
+        delete menu;
+    }
+
+    return view_as<int>(Plugin_Stop);
 }
 
 void BuildLastRequestMenu() {
@@ -116,13 +151,12 @@ public int Menu_FreedayGroup(Menu menu, MenuAction action, int client, int item)
         int target;
         menu.GetItem(item, info, sizeof(info), style, display, sizeof(display));
         target = StringToInt(info);
+        target = GetClientFromSerial(target);
         if(target <= 1) {
             CPrintToChat(client, JAILBREAK_REPLY, "Jailbreak_FreedayGroup_Failed");
             menu.Display(client, MENU_TIME_FOREVER);
             return 0;
         }
-
-        target = GetClientSerial(target);
 
         for(int i = 0; i < MAXPLAYERS + 1; i++) {
             if(nextFreedays[i] != 0) continue;

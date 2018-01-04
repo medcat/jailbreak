@@ -83,6 +83,8 @@ public Action Event_RoundStartPre(Event event, const char[] eventName, bool dont
     Log("round start pre!");
     JailbreakHandleEntities();
     PrepareGameConVars();
+    currentWardenClient = 0;
+    wardenAllowed = false;
 }
 
 public Action Event_RoundStart(Event event, const char[] eventName, bool dontBroadcast) {

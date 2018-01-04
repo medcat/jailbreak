@@ -1,8 +1,3 @@
-// beamModel = PrecacheModel("materials/sprites/laser.vmt")
-// haloModel = PrecacheModel("materials/sprites/halo01.vmt")
-// redTeamColor = {0xff, 0x40, 0x40, 0xff};
-// blueTeamColor = {0x99, 0xcc, 0xff, 0xff};
-
 void GrantFreeday(int clientIndex, bool force = false) {
     if(!IsPlayerAlive(clientIndex)) return;
     if(freedayClients[clientIndex][0]) return;
@@ -76,6 +71,9 @@ void InitializeFreeday() {
         freedayClients[i][3] = 0.0;
         freedayClients[i][4] = 0.0;
     }
+
+    beamModel = PrecacheModel("materials/sprites/laser.vmt");
+    haloModel = PrecacheModel("materials/sprites/halo01.vmt");
 }
 
 void RemoveAllFreedays(bool force = false) {

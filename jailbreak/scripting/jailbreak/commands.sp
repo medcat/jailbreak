@@ -21,6 +21,7 @@ void InitializeCommands() {
     RegConsoleCmd("sm_jailbreak_warden_softcollisions", Command_Warden_SoftCollisions, "Enable soft collisions as warden.");
     RegConsoleCmd("sm_warden_softcollisions", Command_Warden_SoftCollisions, "Enable soft collisions as warden.");
     RegConsoleCmd("sm_wsc", Command_Warden_SoftCollisions, "Enable soft collisions as warden.");
+    RegConsoleCmd("sm_wcc", Command_Warden_SoftCollisions, "Enable soft collisions as warden.");
     RegConsoleCmd("sm_jailbreak_warden_hardcollisions", Command_Warden_HardCollisions, "Enable hard collisions as warden.");
     RegConsoleCmd("sm_warden_hardcollisions", Command_Warden_HardCollisions, "Enable hard collisions as warden.");
     RegConsoleCmd("sm_whc", Command_Warden_HardCollisions, "Enable hard collisions as warden.");

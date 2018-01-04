@@ -38,10 +38,7 @@ public Action Command_GiveWarden(int client, int a) {
         // why is the console trying to get warden?
         CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_GiveWarden_Console",
             client);
-    } else if(TF2_GetClientTeam(client) != TFTeam_Blue) {
-        CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_GiveWarden_MustBlue",
-            client);
-    } else if(!IsWardenActive()) {
+    } else if(TF2_GetClientTeam(client) == TFTeam_Blue && !IsWardenActive()) {
         MakeClientWarden(client);
     } else {
         return Command_CheckWarden(client, 0);

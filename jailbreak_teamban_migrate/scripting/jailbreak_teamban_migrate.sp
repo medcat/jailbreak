@@ -252,7 +252,7 @@ void UpdateClientTimes(int clientId, bool forceDelete = false) {
 
 public Action Command_Jailbreak_TeamBan(int client, int args) {
     if(args < 2 || args > 3) {
-        PrintToConsole(client, "Usage: sm_teamban <clients> <reason> [time]");
+        PrintToConsole(client, "Usage: sm_teamban <clients> [time] <reason>");
         return Plugin_Handled;
     }
 
@@ -263,22 +263,20 @@ public Action Command_Jailbreak_TeamBan(int client, int args) {
     }
 
     char target[MAX_NAME_LENGTH];
-    GetCmdArg(1, target, sizeof(target));
     char reason[1024];
-    GetCmdArg(2, reason, sizeof(reason));
     int[] targets = new int[MaxClients];
     char targetName[128];
     int lengthTime = 0;
+    GetCmdArg(1, target, sizeof(target));
+
     if(args == 3) {
         char lengthTimeString[32];
-        GetCmdArg(3, lengthTimeString, sizeof(lengthTimeString));
+        GetCmdArg(2, lengthTimeString, sizeof(lengthTimeString));
         lengthTime = StringToInt(lengthTimeString, 10);
-    }
-
-    if(lengthTime == 0) {
-        CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_Teamban_NoLength",
-            client);
-        return Plugin_Handled;
+        if(lengthTime < 1) lengthTime = 0;
+        GetCmdArg(3, reason, sizeof(reason));
+    } else {
+        GetCmdArg(2, reason, sizeof(reason));
     }
 
     char adminId[32];
