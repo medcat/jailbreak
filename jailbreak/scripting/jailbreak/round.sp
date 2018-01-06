@@ -88,46 +88,36 @@ public Action Event_RoundStartPre(Event event, const char[] eventName, bool dont
 }
 
 public Action Event_RoundStart(Event event, const char[] eventName, bool dontBroadcast) {
-    currentWardenClient = 0;
-    wardenAllowed = true;
+    if(wardenAllowed) return Plugin_Continue;
     Log("round start!");
     if(Jailbreak_TriggerPreBalance(roundType) == Plugin_Continue) StartJailbreakBalance();
+    currentWardenClient = 0;
+    wardenAllowed = true;
     roundType = nextRoundType;
-    /*roundTimer = CreateTimer(cvRoundTime.FloatValue - 0.1, Event_TimerRoundEnd);*/
     nextRoundType = JailbreakRoundType_Normal;
     for(int i = 1; i <= MaxClients; i++) {
-        if(IsClientInGame(i) && IsPlayerAlive(i) && TF2_GetClientTeam(i) == TFTeam_Red)
-            JailbreakRemoveWeapons(i, false);
+        if(IsClientInGame(i) && IsPlayerAlive(i) && TF2_GetClientTeam(i) == TFTeam_Red) {
+            CreateTimer(0.1, Timer_RemovePlayerWeapons, i);
+        }
     }
     JailbreakRoundHandleRoundType();
     return Jailbreak_TriggerRoundStart(event, roundType);
 }
 
-/*public Action Event_TimerRoundEnd(Handle timer) {
-    Log("Event_TimerRoundEnd");
-    roundTimer = null;
-    for(int i = 1; i < MaxClients; i++) {
-        if(IsClientInGame(i) && IsPlayerAlive(i) && TF2_GetClientTeam(i) == TFTeam_Red)
-            ForcePlayerSuicide(i);
-    }
-    return Plugin_Stop;
-}*/
-
 public Action Event_RoundEnd(Event event, const char[] eventName, bool dontBroadcast) {
+    if(!wardenAllowed) return Plugin_Continue;
+    currentWardenClient = 0;
+    wardenAllowed = false;
     Log("round ended because of %s!", eventName);
-    if(wardenAllowed) {
-        StopJailbreakBalance();
-        RemoveAllFreedays(true);
-        /*if(roundTimer != null) roundTimer.Close();*/
-        wardenAllowed = false;
-        JailbreakRoundType oldRoundType = roundType;
-        roundType = JailbreakRoundType_Normal;
-        return Jailbreak_TriggerRoundEnd(event, oldRoundType);
-    }
-    return Plugin_Continue;
+    StopJailbreakBalance();
+    RemoveAllFreedays(true);
+    JailbreakRoundType oldRoundType = roundType;
+    roundType = JailbreakRoundType_Normal;
+    return Jailbreak_TriggerRoundEnd(event, oldRoundType);
 }
 
 public Action Event_PlayerDeath(Event event, const char[] eventName, bool dontBroadcast) {
+    Log("saw player death!");
     int userId = event.GetInt("userid");
     int client = GetClientOfUserId(userId);
     if(IsCurrentWarden(client)) {
@@ -149,13 +139,20 @@ public Action Event_PlayerHurt(Event event, const char[] eventName, bool dontBro
 
 public Action Event_PlayerSpawn(Event event, const char[] eventName, bool dontBroadcast) {
     int client = GetClientOfUserId(event.GetInt("userid"));
-    Log("saw client %L spawn.", client);
     if(TF2_GetClientTeam(client) == TFTeam_Red) {
-        Log("removing client %L's weapons on spawn.", client);
-        JailbreakRemoveWeapons(client, false);
+        Log("removing client %L weapons on spawn.", client);
+        CreateTimer(0.1, Timer_RemovePlayerWeapons, client);
+    } else {
+        Log("saw client %L spawn.", client);
     }
 
     return Plugin_Continue;
+}
+
+public Action Timer_RemovePlayerWeapons(Handle _t, any clientAny) {
+    int client = view_as<int>(clientAny);
+    JailbreakRemoveWeapons(client, false);
+    return Plugin_Stop;
 }
 
 public void OnClientDisconnect_Post(int client) {

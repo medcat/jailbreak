@@ -1,6 +1,6 @@
 public Action Command_Warden_Menu(int client, int args) {
-    bool isAdmin = CheckCommandAccess(client, "sm_jailbreak_warden_menu",
-        ADMFLAG_KICK, false);
+    bool isAdmin = CheckCommandAccess(client, "sm_jailbreak_warden_menu_override",
+        ADMFLAG_KICK, true);
     if(!IsCurrentWarden(client) && !isAdmin) {
         CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_Warden_NotWarden",
             client);

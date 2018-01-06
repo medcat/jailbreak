@@ -1,5 +1,5 @@
 public Action Command_Warden_FriendlyFire(int client, int a) {
-    bool isAdmin = CheckCommandAccess(client, "sm_jailbreak_warden_friendlyfire",
+    bool isAdmin = CheckCommandAccess(client, "sm_jailbreak_warden_friendlyfire_override",
         ADMFLAG_KICK, false);
     if(!IsCurrentWarden(client) && !isAdmin) {
         CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_Warden_NotWarden",
@@ -26,8 +26,8 @@ public Action Command_Warden_FriendlyFire(int client, int a) {
 }
 
 public Action Command_Warden_SoftCollisions(int client, int a) {
-    bool isAdmin = CheckCommandAccess(client, "sm_jailbreak_warden_softcollisions",
-        ADMFLAG_KICK, false);
+    bool isAdmin = CheckCommandAccess(client, "sm_jailbreak_warden_softcollisions_override",
+        ADMFLAG_KICK, true);
     if(!IsCurrentWarden(client) && !isAdmin) {
         CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_Warden_NotWarden",
             client);
@@ -48,8 +48,8 @@ public Action Command_Warden_SoftCollisions(int client, int a) {
 }
 
 public Action Command_Warden_HardCollisions(int client, int a) {
-    bool isAdmin = CheckCommandAccess(client, "sm_jailbreak_warden_hardcollisions",
-        ADMFLAG_KICK, false);
+    bool isAdmin = CheckCommandAccess(client, "sm_jailbreak_warden_hardcollisions_override",
+        ADMFLAG_KICK, true);
     if(!IsCurrentWarden(client) && !isAdmin) {
         CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_Warden_NotWarden",
             client);

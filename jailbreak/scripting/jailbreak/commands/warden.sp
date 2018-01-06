@@ -1,15 +1,16 @@
 stock bool IsWardenActive() {
-    return currentWardenClient != 0 &&
-        GetClientFromSerial(currentWardenClient) != 0 &&
-        wardenAllowed;
+    Log("wardenAllowed: %d, currentWardenClient: %d, client(currentWardenClient): %d",
+        wardenAllowed, currentWardenClient, GetClientFromSerial(currentWardenClient));
+    return (wardenAllowed && (currentWardenClient > 0) &&
+        (GetClientFromSerial(currentWardenClient) > 0));
 }
 
 stock bool IsCurrentWarden(int client) {
-    return IsWardenActive() && GetClientFromSerial(currentWardenClient) == client;
+    return IsWardenActive() && (GetClientFromSerial(currentWardenClient) == client);
 }
 
 void MakeClientWarden(int client, bool force = false) {
-    if(Jailbreak_TriggerGiveWarden(client, force) == Plugin_Continue || force) {
+    if(wardenAllowed && (Jailbreak_TriggerGiveWarden(client, force) == Plugin_Continue || force)) {
         currentWardenClient = GetClientSerial(client);
         char cName[32];
         GetClientName(client, cName, sizeof(cName));
@@ -38,7 +39,7 @@ public Action Command_GiveWarden(int client, int a) {
         // why is the console trying to get warden?
         CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_GiveWarden_Console",
             client);
-    } else if(TF2_GetClientTeam(client) == TFTeam_Blue && !IsWardenActive()) {
+    } else if(TF2_GetClientTeam(client) == TFTeam_Blue && IsPlayerAlive(client) && !IsWardenActive()) {
         MakeClientWarden(client);
     } else {
         return Command_CheckWarden(client, 0);

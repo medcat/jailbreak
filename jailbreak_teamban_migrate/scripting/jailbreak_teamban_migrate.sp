@@ -75,13 +75,6 @@ public void OnMapStart() {
     Database.Connect(OnSqlConnect, "bluebans");
     HookEvent("player_spawn", Event_PlayerSpawn, EventHookMode_Post);
     HookEvent("player_death", Event_PlayerDeath, EventHookMode_Post);
-    HookEvent("teamplay_round_win", Event_RoundEnd, EventHookMode_PostNoCopy);
-    /* HookEvent("round_end", Event_RoundEnd, EventHookMode_PostNoCopy);
-    HookEvent("tf_game_over", Event_RoundEnd, EventHookMode_PostNoCopy);
-    HookEvent("teamplay_round_win", Event_RoundEnd, EventHookMode_PostNoCopy);
-    HookEvent("teamplay_game_over", Event_RoundEnd, EventHookMode_PostNoCopy);
-    HookEvent("teamplay_win_panel", Event_RoundEnd, EventHookMode_PostNoCopy);
-    HookEvent("arena_win_panel", Event_RoundEnd, EventHookMode_PostNoCopy); */
 }
 
 public void OnMapEnd() {
@@ -204,11 +197,13 @@ public void Event_PlayerDeath(Event event, const char[] _n, bool _db) {
     UpdateClientTimes(clientId);
 }
 
-public void Event_RoundEnd(Event event, const char[] _n, bool _db) {
-    for(int i = 1; i < MAXPLAYERS; i++) {
-        if(!IsClientInGame(i) || IsFakeClient(i) || !IsPlayerAlive(i)) return;
+public Action OnJailbreakRoundEnd(JailbreakRoundType jailbreakRoundType) {
+    for(int i = 1; i < MaxClients; i++) {
+        if(!IsClientConnected(i) ||!IsClientInGame(i) || IsFakeClient(i) || !IsPlayerAlive(i)) continue;
         UpdateClientTimes(i);
     }
+
+    return Plugin_Continue;
 }
 
 public void OnClientDisconnect(int clientId) {

@@ -35,6 +35,8 @@ public Action OnJailbreakPreBalance(JailbreakRoundType currentRoundType) {
             ShowSyncHudText(i, freedaySync, "First Day Freeday!");
         }
     }
+
+    return Plugin_Continue;
 }
 
 public void OnMapStart() {
