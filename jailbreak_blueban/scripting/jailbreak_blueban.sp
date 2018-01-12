@@ -71,9 +71,9 @@ public void OnPluginStart() {
     RegAdminCmd("sm_unteamban_offline", Command_Jailbreak_UnTeamBan_Offline, ADMFLAG_UNBAN,
         "unteambans a player.", "sm_unteamban_offline");
     forwardTeamBan = CreateGlobalForward("OnJailbreakTeamBan", ET_Event,
-        Param_Cell, Param_Cell, Param_String);
+        Param_Cell, Param_Cell, Param_Cell, Param_String);
     forwardTeamBanOffline = CreateGlobalForward("OnJailbreakTeamBanOffline", ET_Event,
-        Param_String, Param_Cell, Param_String);
+        Param_Cell, Param_String, Param_Cell, Param_String);
 }
 
 public void OnMapStart() {
@@ -258,9 +258,9 @@ void TeamBan(int adminId, int clientId, const char[] authId,
     int newTimes[2];
     int currentTimes[2];
     if(clientId != 0) {
-        if(Jailbreak_TriggerTeamBan(clientId, length, reason) != Plugin_Continue) return;
+        if(Jailbreak_TriggerTeamBan(adminId, clientId, length, reason) != Plugin_Continue) return;
     } else {
-        if(Jailbreak_TriggerTeamBanOffline(authId, length, reason) != Plugin_Continue) return;
+        if(Jailbreak_TriggerTeamBanOffline(adminId, authId, length, reason) != Plugin_Continue) return;
     }
 
     GetClientName(adminId, adminName, sizeof(adminName));
@@ -429,9 +429,10 @@ public Action Command_Jailbreak_UnTeamBan_Offline(int client, int args) {
     return Plugin_Handled;
 }
 
-Action Jailbreak_TriggerTeamBan(int client, int length, const char[] reason) {
+Action Jailbreak_TriggerTeamBan(int admin, int client, int length, const char[] reason) {
     Action result;
     Call_StartForward(forwardTeamBan);
+    Call_PushCell(admin);
     Call_PushCell(client);
     Call_PushCell(length);
     Call_PushString(reason);
@@ -439,10 +440,11 @@ Action Jailbreak_TriggerTeamBan(int client, int length, const char[] reason) {
     return result;
 }
 
-Action Jailbreak_TriggerTeamBanOffline(const char[] authId, int length,
+Action Jailbreak_TriggerTeamBanOffline(int admin, const char[] authId, int length,
     const char[] reason) {
     Action result;
     Call_StartForward(forwardTeamBanOffline);
+    Call_PushCell(admin);
     Call_PushString(authId);
     Call_PushCell(length);
     Call_PushString(reason);

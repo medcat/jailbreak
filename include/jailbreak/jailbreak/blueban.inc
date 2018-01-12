@@ -23,9 +23,10 @@ public void __pl_jailbreak_blueban_SetNTVOptional() {
 }
 #endif
 
-forward Action OnJailbreakTeamBan(int client, int length, const char[] reason);
-forward Action OnJailbreakTeamBanOffline(const char[] authId, int length,
+forward Action OnJailbreakTeamBan(int admin, int client, int length,
     const char[] reason);
+forward Action OnJailbreakTeamBanOffline(int admin, const char[] authId,
+    int length, const char[] reason);
 
 native void Jailbreak_TeamBan(int admin, int client, int length,
     const char[] reason);
