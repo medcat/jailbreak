@@ -27,6 +27,10 @@ public void __pl_jailbreak_SetNTVOptional() {
     MarkNativeAsOptional("Jailbreak_IsClientFreeday");
     MarkNativeAsOptional("Jailbreak_GetWarden");
     MarkNativeAsOptional("Jailbreak_SetWarden");
+    MarkNativeAsOptional("Jailbreak_ClearWarden");
+    MarkNativeAsOptional("Jailbreak_IsClientWarden");
+    MarkNativeAsOptional("Jailbreak_IsWardenAllowed");
+    MarkNativeAsOptional("Jailbreak_IsWardenActive");
     MarkNativeAsOptional("Jailbreak_GetRoundType");
     MarkNativeAsOptional("Jailbreak_GetNextRoundType");
     MarkNativeAsOptional("Jailbreak_SetNextRoundType");
@@ -34,51 +38,25 @@ public void __pl_jailbreak_SetNTVOptional() {
     MarkNativeAsOptional("Jailbreak_TriggerMapEventEx");
 }
 #endif
+/**
+ * What type of round the round should be. A normal jailbreak round.  Nothing
+ * special about this.
+ */
+#define JAILBREAK_ROUNDTYPE_NORMAL 0
 
 /**
- * What type of round the round should be.  This is used in order to determine
- * how a previous last request should be handled.
+ * What type of round the round should be. A round where all of the prisoners
+ * are allowed a freeday; however, the plugin does not grant freeday to all of
+ * the prisoners.
  */
-enum JailbreakRoundType {
-    /**
-     * A normal jailbreak round.  Nothing special about this.
-     */
-    JailbreakRoundType_Normal,
-    /**
-     * A jailbreak round that is being modified externally by another plugin.
-     * The default behavior of the jailbreak plugin is to treat this exactly
-     * like a Normal round; this can be used to implement custom Last Requests.
-     */
-    JailbreakRoundType_External,
-    /**
-     * A round where a specific command is run at the start of the round.  The
-     * source and actual command are kept internally.
-     */
-    JailbreakRoundType_Command,
+#define JAILBREAK_ROUNDTYPE_FREEDAY 1
 
-    /**
-     * A round where one or more prisoners (reds) are given freedays at the
-     * start of the round.
-     */
-    JailbreakRoundType_FreedayGroup,
-
-    /**
-     * A round where all of the prisoners are allowed a freeday; however, the
-     * plugin does not grant freeday to all of the prisoners.
-     */
-    JailbreakRoundType_FreedayAll,
-
-    /**
-     * A round where the guards are stripped to their melee, and may only use
-     * those for the duration of the round.
-     */
-    JailbreakRoundType_GuardMeleeOnly,
-
-    /**
-     * A round where the previous last request was a custom last request.
-     */
-    JailbreakRoundType_CustomLastRequest,
-}
+/**
+ * What type of round the round should be. A round where all of the prisoners
+ * are allowed a freeday; however, the plugin does not grant freeday to all of
+ * the prisoners.
+ */
+#define JAILBREAK_ROUNDTYPE_EXTERNAL 2
 
 /**
  * Called when a jailbreak round start.  This is called with the round start
@@ -92,7 +70,7 @@ enum JailbreakRoundType {
  *        					the HookEvent trigger; thus, it is unlikely it
  *        					will do anything with anything but Plugin_Continue.
  */
-forward Action OnJailbreakRoundStart(Event event, JailbreakRoundType roundType);
+forward Action OnJailbreakRoundStart(Event event, int roundType);
 
 /**
  * Called just before a balance occurs.  The roundType is given for reference.
@@ -107,26 +85,7 @@ forward Action OnJailbreakRoundStart(Event event, JailbreakRoundType roundType);
  * @return					If the result is anything but Plugin_Continue, the
  *        					default balance algorithm is skipped.
  */
-forward Action OnJailbreakPreBalance(JailbreakRoundType roundType);
-
-/**
- * Called when a player selects a last request.  This is mostly used to
- * implement custom LRs.  The names used internally are dependent on the
- * last_requests.cfg file; by default, they are `Freeday_Single`,
- * `Freeday_Group`, `Freeday_All`, `Suicide`, `Guard_Melee_Only`, and
- * `Custom_Request`.
- *
- * @param client			The client that chose the last request.
- * @param name				The name of the choice.  This should be the
- *            				programmatic key used by your plugin to identify
- *            				which last request is chosen.
- * @param description		The menu description for the item that was chosen.
- *                   		Likely safe to ignore.
- * @return					If the result is anything but Plugin_Continue, the
- *        					LR will be treated as handled, and the default code
- *        					will not run.
- */
-forward Action OnJailbreakLastRequest(int client, char[] name, char[] description);
+forward Action OnJailbreakPreBalance(int roundType);
 
 /**
  * Called after the round ends.  This is triggered at the end of all of the
@@ -134,14 +93,15 @@ forward Action OnJailbreakLastRequest(int client, char[] name, char[] descriptio
  * it is tied to, and is mostly ignored.  The roundType parameter here is for
  * the previous round's roundType; for the next round's roundType, check
  * Jailbreak_GetNextRoundType (note that Jailbreak_GetRoundType will *always*
- * return JailbreakRoundType_Normal at this point).
+ * return `JAILBREAK_ROUNDTYPE_NORMAL` at this point).
  *
+ * @param event				The event that triggered the round end.
  * @param roundType			The old round type.
  * @return					The result is passed directly to the EventHook that
  *        					this event is attached to, and so is likely to do
  *        					nothing.
  */
-forward Action OnJailbreakRoundEnd(JailbreakRoundType roundType);
+forward Action OnJailbreakRoundEnd(Event event, int roundType);
 
 /**
  * Called when a player is given a freeday.  If this returns anything but
@@ -252,19 +212,6 @@ native void Jailbreak_GiveFreeday(int client);
 native void Jailbreak_RemoveFreeday(int client);
 
 /**
- * Adds a freeday for the next round.  Note that this will do nothing unless the
- * next round type is set to `JailbreakRoundType_FreedayGroup` - see
- * `Jailbreak_SetNextRoundType`.
- *
- * @param client			The client to give a freeday to next round.
- * @return					If the client was added to the list, it returns true;
- *        					however, if the client was already in the list, it
- *        					returns false.
- * @error					If the client is not in game.
- */
-native bool Jailbreak_AddFreeday(int client);
-
-/**
  * Checks if the specified client has a freeday.
  *
  * @param client			The client to check a freeday for.
@@ -311,18 +258,34 @@ native bool Jailbreak_ClearWarden();
 native bool Jailbreak_IsClientWarden(int client);
 
 /**
+ * Checks if warden is allowed.  This mostly means that a client can become
+ * warden (or has become warden).
+ *
+ * @return					True if warden is allowed.
+ */
+native bool Jailbreak_IsWardenAllowed();
+
+/**
+ * Checks if warden is active.  This mostly means that an active client is
+ * warden.
+ *
+ * @return					True if warden is active.
+ */
+native bool Jailbreak_IsWardenActive();
+
+/**
  * Retrieves the current round type.
  *
  * @return					The round type.
  */
-native JailbreakRoundType Jailbreak_GetRoundType();
+native int Jailbreak_GetRoundType();
 
 /**
  * Retrieves the next round type.
  *
  * @return					The next round type.
  */
-native JailbreakRoundType Jailbreak_GetNextRoundType();
+native int Jailbreak_GetNextRoundType();
 
 /**
  * Sets the next round type.  The most opportune places to set this are
@@ -333,4 +296,4 @@ native JailbreakRoundType Jailbreak_GetNextRoundType();
  * @error					If the roundType isn't one of the roundType enum
  *       					values.
  */
-native void Jailbreak_SetNextRoundType(JailbreakRoundType roundType);
+native void Jailbreak_SetNextRoundType(int roundType);

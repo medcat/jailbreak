@@ -21,4 +21,9 @@
         "#format"   "{1:s}"
         "en"        "{1:s} has been successfully unteambanned."
     }
+
+    "Jailbreak_Teamban_Offline_InvalidSteam"
+    {
+        "en"        "Invalid SteamID."
+    }
 }

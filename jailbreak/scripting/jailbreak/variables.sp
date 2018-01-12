@@ -5,7 +5,7 @@ ConVar cvWardenHardCollisions;
 ConVar cvCriticals;
 ConVar cvBalanceAlgorithm;
 ConVar cvBalanceRatio;
-ConVar cvGroupFreedayCount;
+/* ConVar cvGroupFreedayCount; */
 ConVar cvGameFriendlyFire;
 ConVar cvGameNoHardCollisions;
 ConVar cvGameSoftCollisions;
@@ -25,25 +25,25 @@ Handle wardenDeclareSync = null;
 Menu wardenMenu = null;
 bool wardenAllowed = false;
 
-Menu lastRequestMenu;
-KeyValues lastRequests;
+/* Menu lastRequestMenu; */
+/* KeyValues lastRequests; */
 
 int beamModel = -1;
 int haloModel = -1;
 
-JailbreakRoundType roundType;
-JailbreakRoundType nextRoundType;
-int nextFreedays[MAXPLAYERS + 2] = { 0 };
+int roundType;
+int nextRoundType;
+/* int nextFreedays[MAXPLAYERS + 2] = { 0 }; */
 any freedayClients[MAXPLAYERS + 1][5];
-char freedayCommand[256];
-int freedayCommandTarget = 0;
-int freedayGroupRemaining = 0;
+/* char freedayCommand[256]; */
+/* int freedayCommandTarget = 0; */
+/* int freedayGroupRemaining = 0; */
 
 // forwards
 Handle forwardRoundStart = null;
 Handle forwardPreBalance = null;
 Handle forwardRoundEnd = null;
-Handle forwardLastRequest = null;
+/* Handle forwardLastRequest = null; */
 Handle forwardGiveFreeday = null;
 Handle forwardRemoveFreeday = null;
 Handle forwardGiveWarden = null;

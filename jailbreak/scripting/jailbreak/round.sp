@@ -40,45 +40,6 @@ void JailbreakRemoveWeapons(int client, bool permanent) {
     }
 }
 
-void JailbreakRoundHandleRoundType() {
-    switch(roundType) {
-    case JailbreakRoundType_Normal, JailbreakRoundType_CustomLastRequest, JailbreakRoundType_External:
-        return;
-    case JailbreakRoundType_Command: {
-        if(freedayCommandTarget == 0)
-            ServerCommand("%s", freedayCommand);
-        else {
-            int client;
-            if((client = GetClientFromSerial(freedayCommandTarget)) > 0)
-                ClientCommand(client, "%s", freedayCommand);
-        }
-    }
-    case JailbreakRoundType_FreedayGroup: {
-        char clientName[MAX_NAME_LENGTH];
-        for(int i = 0; i <= MAXPLAYERS; i++) {
-            Log("freeday_group: %u, %u", i, nextFreedays[i]);
-            if(nextFreedays[i] == 0) { nextFreedays[0] = 0; return; }
-            int client = GetClientFromSerial(nextFreedays[i]);
-            Log("freeday_group: %L", client);
-            if(client <= 0 || TF2_GetClientTeam(client) == TFTeam_Blue) continue;
-            Log("freeday_group (proper): %L", client);
-            GetClientName(client, clientName, sizeof(clientName));
-            CPrintToChatAll(JAILBREAK_REPLY, "Jailbreak_Freeday_Given", LANG_SERVER, clientName);
-            GrantFreeday(client);
-        }
-
-        nextFreedays[0] = 0;
-    }
-    case JailbreakRoundType_FreedayAll:
-        CPrintToChatAll(JAILBREAK_REPLY, "Jailbreak_Freeday_GivenAll", LANG_SERVER);
-    case JailbreakRoundType_GuardMeleeOnly:
-        for(int i = 1; i <= MaxClients; i++) {
-            if(IsClientInGame(i) && TF2_GetClientTeam(i) == TFTeam_Blue)
-                JailbreakRemoveWeapons(i, true);
-        }
-    }
-}
-
 public Action Event_RoundStartPre(Event event, const char[] eventName, bool dontBroadcast) {
     Log("round start pre!");
     JailbreakHandleEntities();
@@ -94,13 +55,13 @@ public Action Event_RoundStart(Event event, const char[] eventName, bool dontBro
     currentWardenClient = 0;
     wardenAllowed = true;
     roundType = nextRoundType;
-    nextRoundType = JailbreakRoundType_Normal;
+    nextRoundType = JAILBREAK_ROUNDTYPE_NORMAL;
     for(int i = 1; i <= MaxClients; i++) {
         if(IsClientInGame(i) && IsPlayerAlive(i) && TF2_GetClientTeam(i) == TFTeam_Red) {
             CreateTimer(0.1, Timer_RemovePlayerWeapons, i);
         }
     }
-    JailbreakRoundHandleRoundType();
+
     return Jailbreak_TriggerRoundStart(event, roundType);
 }
 
@@ -111,8 +72,8 @@ public Action Event_RoundEnd(Event event, const char[] eventName, bool dontBroad
     Log("round ended because of %s!", eventName);
     StopJailbreakBalance();
     RemoveAllFreedays(true);
-    JailbreakRoundType oldRoundType = roundType;
-    roundType = JailbreakRoundType_Normal;
+    int oldRoundType = roundType;
+    roundType = JAILBREAK_ROUNDTYPE_NORMAL;
     return Jailbreak_TriggerRoundEnd(event, oldRoundType);
 }
 

@@ -1,6 +1,4 @@
 stock bool IsWardenActive() {
-    Log("wardenAllowed: %d, currentWardenClient: %d, client(currentWardenClient): %d",
-        wardenAllowed, currentWardenClient, GetClientFromSerial(currentWardenClient));
     return (wardenAllowed && (currentWardenClient > 0) &&
         (GetClientFromSerial(currentWardenClient) > 0));
 }

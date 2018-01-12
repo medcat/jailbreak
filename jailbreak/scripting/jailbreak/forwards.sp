@@ -4,9 +4,9 @@ void CreateForwards() {
     forwardPreBalance = CreateGlobalForward("OnJailbreakPreBalance", ET_Event,
         Param_Cell);
     forwardRoundEnd = CreateGlobalForward("OnJailbreakRoundEnd", ET_Event,
-        Param_Any, Param_Cell);
-    forwardLastRequest = CreateGlobalForward("OnJailbreakLastRequest", ET_Event,
-        Param_Cell, Param_String, Param_String);
+        Param_Cell, Param_Cell);
+    /* forwardLastRequest = CreateGlobalForward("OnJailbreakLastRequest", ET_Event,
+        Param_Cell, Param_String, Param_String); */
     forwardGiveFreeday = CreateGlobalForward("OnJailbreakGiveFreeday", ET_Event,
         Param_Cell, Param_Cell);
     forwardRemoveFreeday = CreateGlobalForward("OnJailbreakRemoveFreeday", ET_Event,
@@ -17,7 +17,7 @@ void CreateForwards() {
         Param_Cell, Param_Cell);
 }
 
-Action Jailbreak_TriggerRoundStart(Event event, JailbreakRoundType rType) {
+Action Jailbreak_TriggerRoundStart(Event event, int rType) {
     Action result;
 
     Call_StartForward(forwardRoundStart);
@@ -27,7 +27,7 @@ Action Jailbreak_TriggerRoundStart(Event event, JailbreakRoundType rType) {
     return result;
 }
 
-Action Jailbreak_TriggerRoundEnd(Event event, JailbreakRoundType rType) {
+Action Jailbreak_TriggerRoundEnd(Event event, int rType) {
     Action result;
 
     Call_StartForward(forwardRoundEnd);
@@ -37,7 +37,7 @@ Action Jailbreak_TriggerRoundEnd(Event event, JailbreakRoundType rType) {
     return result;
 }
 
-Action Jailbreak_TriggerPreBalance(JailbreakRoundType rType) {
+Action Jailbreak_TriggerPreBalance(int rType) {
     Action result;
 
     Call_StartForward(forwardPreBalance);
@@ -46,7 +46,7 @@ Action Jailbreak_TriggerPreBalance(JailbreakRoundType rType) {
     return result;
 }
 
-Action Jailbreak_TriggerLastRequest(int client, const char[] info, const char[] desc) {
+/* Action Jailbreak_TriggerLastRequest(int client, const char[] info, const char[] desc) {
     Action result;
 
     Call_StartForward(forwardLastRequest);
@@ -55,7 +55,7 @@ Action Jailbreak_TriggerLastRequest(int client, const char[] info, const char[] 
     Call_PushString(desc);
     if(Call_Finish(result) != SP_ERROR_NONE) ThrowError("TriggerLastRequest forward failed!");
     return result;
-}
+} */
 
 // result ignored on admin command
 Action Jailbreak_TriggerGiveFreeday(int client, bool force) {

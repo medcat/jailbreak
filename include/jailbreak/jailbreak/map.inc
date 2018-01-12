@@ -28,9 +28,14 @@ public void __pl_jailbreak_map_SetNTVOptional() {
 enum JailbreakMapEvent {
     /**
      * Initialize the map.  This really shouldn't be called by any plugins,
+     * as it should only be called once at the beginning of a map.
+     */
+    JailbreakMapEvent_MapStart,
+    /**
+     * Initialize the round.  This really shouldn't be called by any plugins,
      * as it should only be called once at the beginning of a round.
      */
-    JailbreakMapEvent_Initialize,
+    JailbreakMapEvent_RoundStart,
     /**
      * Opens the cells in the map.
      */

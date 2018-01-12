@@ -7,6 +7,7 @@
 #include <smlib/clients>
 #include <smlib/entities>
 #include <smlib/weapons>
+#include <jailbreak>
 
 #pragma newdecls required
 #pragma semicolon 1
@@ -28,16 +29,6 @@ stock void Log(const char[] str, any ...) {
     char[] buffer = new char[1024];
     VFormat(buffer, 1024, str, 2);
     LogMessage("%s", buffer);
-}
-
-enum JailbreakRoundType {
-    JailbreakRoundType_Normal,
-    JailbreakRoundType_External,
-    JailbreakRoundType_Command,
-    JailbreakRoundType_FreedayGroup,
-    JailbreakRoundType_FreedayAll,
-    JailbreakRoundType_GuardMeleeOnly,
-    JailbreakRoundType_CustomLastRequest,
 }
 
 #include "jailbreak/variables.sp"
@@ -65,8 +56,8 @@ public void OnPluginStart() {
     LoadTranslations("core.phrases");
     LoadTranslations("common.phrases");
     wardenDeclareSync = CreateHudSynchronizer();
-    roundType = JailbreakRoundType_Normal;
-    nextRoundType = JailbreakRoundType_Normal;
+    roundType = JAILBREAK_ROUNDTYPE_NORMAL;
+    nextRoundType = JAILBREAK_ROUNDTYPE_NORMAL;
     InitializeCommands();
     InitializeConVars();
     AddTargetFilters();
@@ -84,11 +75,8 @@ public void OnEntityCreated(int entity, const char[] classname) {
 public void OnMapStart() {
     InitializeFreeday();
     BuildWardenMenu();
-    BuildLastRequestMenu();
     JailbreakHandleEntities();
-    /* HookEvent("teamplay_round_start", Event_RoundStartPre, EventHookMode_Pre); */
     HookEvent("arena_round_start", Event_RoundStart, EventHookMode_Post);
-    /* HookEvent("teamplay_round_win", Event_RoundEnd, EventHookMode_PostNoCopy); */
     HookEvent("arena_win_panel", Event_RoundEnd, EventHookMode_PostNoCopy);
     HookEvent("player_hurt", Event_PlayerHurt, EventHookMode_Pre);
     HookEvent("player_spawn", Event_PlayerSpawn, EventHookMode_Pre);

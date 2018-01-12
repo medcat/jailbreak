@@ -23,7 +23,7 @@ public void OnPluginStart() {
 
 }
 
-public Action OnJailbreakRoundStart(Event _e, JailbreakRoundType _jb) {
+public Action OnJailbreakRoundStart(Event _e, int _jb) {
     roundActive = true;
     for(int i = 1; i < MaxClients; i++) {
         clientWasMuted[i] = 0;
@@ -50,7 +50,7 @@ public Action Event_PlayerSpawn(Event event, const char[] eventName, bool dontBr
     return Plugin_Continue;
 }
 
-public Action OnJailbreakRoundEnd(JailbreakRoundType _jb) {
+public Action OnJailbreakRoundEnd(Event _e, int _jb) {
     for(int i = 1; i < MaxClients; i++) {
         if(clientWasMuted[i] == 1) UnMuteClient(i);
     }

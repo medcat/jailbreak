@@ -2,7 +2,6 @@
 #include "jailbreak/commands/warden_actions.sp"
 #include "jailbreak/commands/warden_menu.sp"
 #include "jailbreak/commands/freeday.sp"
-#include "jailbreak/commands/last_request.sp"
 
 void InitializeCommands() {
     RegConsoleCmd("sm_jailbreak_warden", Command_GiveWarden, "Requests warden.");
@@ -29,9 +28,6 @@ void InitializeCommands() {
     RegConsoleCmd("sm_jailbreak_warden_menu", Command_Warden_Menu, "Opens the warden menu.");
     RegConsoleCmd("sm_warden_menu", Command_Warden_Menu, "Opens the warden menu.");
     RegConsoleCmd("sm_wm", Command_Warden_Menu, "Opens the warden menu.");
-    RegConsoleCmd("sm_jailbreak_warden_lastrequest", Command_Warden_LastRequest, "Grants a last request.");
-    RegConsoleCmd("sm_warden_lastrequest", Command_Warden_LastRequest, "Grants a last request.");
-    RegConsoleCmd("sm_givelr", Command_Warden_LastRequest, "Grants a last request.");
 
     RegAdminCmd("sm_jailbreak_forcewarden", Command_Admin_ForceWarden, ADMFLAG_KICK, "Forces a user to be warden.", "sm_jailbreak_forcewarden");
     RegAdminCmd("sm_forcewarden", Command_Admin_ForceWarden, ADMFLAG_KICK, "Forces a user to be warden.", "sm_jailbreak_forcewarden");

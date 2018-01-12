@@ -1,6 +1,6 @@
 GZIP=-9
 
-.PHONY: all clean
+.PHONY: all clean build
 .DEFAULT: all
 
 all: jailbreak_firstday.zip jailbreak_firstday.tar.gz

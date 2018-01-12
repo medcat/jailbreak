@@ -25,9 +25,14 @@ public void OnPluginStart() {
     firstDay = true;
 }
 
-public Action OnJailbreakPreBalance(JailbreakRoundType currentRoundType) {
-    if(currentRoundType == JailbreakRoundType_Normal && firstDay) {
-        Jailbreak_SetNextRoundType(JailbreakRoundType_FreedayAll);
+public void OnMapStart() {
+    firstDay = true;
+}
+
+public Action OnJailbreakPreBalance(int _c) {
+    int currentRoundType = Jailbreak_GetNextRoundType();
+    if(currentRoundType == JAILBREAK_ROUNDTYPE_NORMAL && firstDay) {
+        Jailbreak_SetNextRoundType(JAILBREAK_ROUNDTYPE_FREEDAY);
         firstDay = false;
         SetHudTextParams(-1.0, 0.25, 5.0, 255, 255, 255, 125, 0, 0.0, 0.0, 0.0);
         for(int i = 1; i <= MaxClients; i++) {
@@ -37,8 +42,4 @@ public Action OnJailbreakPreBalance(JailbreakRoundType currentRoundType) {
     }
 
     return Plugin_Continue;
-}
-
-public void OnMapStart() {
-    firstDay = true;
 }

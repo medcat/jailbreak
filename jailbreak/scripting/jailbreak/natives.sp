@@ -1,14 +1,16 @@
 void CreateNatives() {
     CreateNative("Jailbreak_GetWardenMenu", Native_JailbreakGetWardenMenu);
-    CreateNative("Jailbreak_GetLastRequestMenu", Native_JailbreakGetLastRequestMenu);
+    /* CreateNative("Jailbreak_GetLastRequestMenu", Native_JailbreakGetLastRequestMenu); */
     CreateNative("Jailbreak_GiveFreeday", Native_JailbreakGiveFreeday);
     CreateNative("Jailbreak_RemoveFreeday", Native_JailbreakRemoveFreeday);
-    CreateNative("Jailbreak_AddFreeday", Native_JailbreakAddFreeday);
+    /* CreateNative("Jailbreak_AddFreeday", Native_JailbreakAddFreeday); */
     CreateNative("Jailbreak_IsClientFreeday", Native_JailbreakIsFreeday);
     CreateNative("Jailbreak_GetWarden", Native_JailbreakGetWarden);
     CreateNative("Jailbreak_SetWarden", Native_JailbreakSetWarden);
     CreateNative("Jailbreak_ClearWarden", Native_JailbreakClearWarden);
     CreateNative("Jailbreak_IsClientWarden", Native_JailbreakIsWarden);
+    CreateNative("Jailbreak_IsWardenAllowed", Native_JailbreakIsWardenAllowed);
+    CreateNative("Jailbreak_IsWardenActive", Native_JailbreakIsWardenActive);
     CreateNative("Jailbreak_GetRoundType", Native_JailbreakGetRoundType);
     CreateNative("Jailbreak_GetNextRoundType", Native_JailbreakGetNextRoundType);
     CreateNative("Jailbreak_SetNextRoundType", Native_JailbreakSetNextRoundType);
@@ -18,9 +20,9 @@ public int Native_JailbreakGetWardenMenu(Handle plugin, int numParams) {
     return view_as<int>(wardenMenu);
 }
 
-public int Native_JailbreakGetLastRequestMenu(Handle plugin, int numParams) {
+/* public int Native_JailbreakGetLastRequestMenu(Handle plugin, int numParams) {
     return view_as<int>(lastRequestMenu);
-}
+} */
 
 public int Native_JailbreakGiveFreeday(Handle plugin, int numParams) {
     int client = GetNativeCell(1);
@@ -45,7 +47,7 @@ public int Native_JailbreakIsFreeday(Handle plugin, int numParams) {
     return freedayClients[client][0];
 }
 
-public int Native_JailbreakAddFreeday(Handle plugin, int numParams) {
+/* public int Native_JailbreakAddFreeday(Handle plugin, int numParams) {
     int target;
     int client = GetNativeCell(1);
     if(!IsClientInGame(client))
@@ -62,7 +64,7 @@ public int Native_JailbreakAddFreeday(Handle plugin, int numParams) {
     }
 
     return true;
-}
+} */
 
 public int Native_JailbreakGetWarden(Handle plugin, int numParams) {
     return GetClientFromSerial(currentWardenClient);
@@ -93,6 +95,14 @@ public int Native_JailbreakIsWarden(Handle plugin, int numParams) {
     return IsCurrentWarden(client);
 }
 
+public int Native_JailbreakIsWardenAllowed(Handle plugin, int numParams) {
+    return view_as<int>(wardenAllowed);
+}
+
+public int Native_JailbreakIsWardenActive(Handle plugin, int numParams) {
+    return IsWardenActive();
+}
+
 public int Native_JailbreakGetRoundType(Handle plugin, int numParams) {
     return view_as<int>(roundType);
 }
@@ -103,9 +113,8 @@ public int Native_JailbreakGetNextRoundType(Handle plugin, int numParams) {
 
 public int Native_JailbreakSetNextRoundType(Handle plugin, int numParams) {
     int rType = GetNativeCell(1);
-    if(rType > view_as<int>(JailbreakRoundType_CustomLastRequest) ||
-        rType < view_as<int>(JailbreakRoundType_Normal))
+    if(rType < JAILBREAK_ROUNDTYPE_NORMAL)
         ThrowNativeError(104, "Invalid round type given!");
-    nextRoundType = view_as<JailbreakRoundType>(rType);
+    nextRoundType = rType;
     return true;
 }

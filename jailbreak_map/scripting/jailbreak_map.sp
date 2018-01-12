@@ -24,7 +24,8 @@ bool currentMapSupport = false;
 
 /* Handle forwardMapEvent = null; */
 
-#define JAILBREAK_MAP_INITIALIZE "Initialize"
+#define JAILBREAK_MAP_START "Map_Start"
+#define JAILBREAK_MAP_ROUND_START "Round_Start"
 #define JAILBREAK_MAP_CELLS_OPEN "Cells_Open"
 #define JAILBREAK_MAP_CELLS_CLOSE "Cells_Close"
 
@@ -144,7 +145,7 @@ public void OnMapStart() {
     GetCurrentMap(currentMapName, sizeof(currentMapName));
     currentMapSupport = PositionMapKeyValueToCurrentMap();
     if(currentMapSupport) {
-        TriggerJailbreakMapEvent(JAILBREAK_MAP_INITIALIZE);
+        TriggerJailbreakMapEvent(JAILBREAK_MAP_START);
         AddItemsToWardenMenu();
     }
 }
@@ -155,12 +156,12 @@ public Action Timer_OpenCells(Handle timer) {
     return Plugin_Stop;
 }
 
-public Action OnJailbreakRoundStart(Event event, JailbreakRoundType roundType) {
+public Action OnJailbreakRoundStart(Event event, int roundType) {
     float cellTime = cvOpenCellTime.FloatValue;
     if(!currentMapSupport) return Plugin_Continue;
-    TriggerJailbreakMapEvent(JAILBREAK_MAP_INITIALIZE);
+    TriggerJailbreakMapEvent(JAILBREAK_MAP_ROUND_START);
 
-    if(roundType == JailbreakRoundType_FreedayAll) {
+    if(roundType == JAILBREAK_ROUNDTYPE_FREEDAY) {
         TriggerJailbreakMapEvent(JAILBREAK_MAP_CELLS_OPEN);
     } else if(cellTime >= 0.0) {
         if(cellTime == 0.0) cellTime = GetTickInterval();
@@ -209,8 +210,10 @@ public Action Command_Warden_CloseCells(int client, int a) {
 public int Native_JailbreakTriggerMapEvent(Handle plugin, int numParams) {
     JailbreakMapEvent mapEvent = view_as<JailbreakMapEvent>(GetNativeCell(1));
     switch(mapEvent) {
-        case JailbreakMapEvent_Initialize:
-            return TriggerJailbreakMapEvent(JAILBREAK_MAP_INITIALIZE);
+        case JailbreakMapEvent_MapStart:
+            return TriggerJailbreakMapEvent(JAILBREAK_MAP_START);
+        case JailbreakMapEvent_RoundStart:
+            return TriggerJailbreakMapEvent(JAILBREAK_MAP_ROUND_START);
         case JailbreakMapEvent_OpenCells:
             return TriggerJailbreakMapEvent(JAILBREAK_MAP_CELLS_OPEN);
         case JailbreakMapEvent_CloseCells:

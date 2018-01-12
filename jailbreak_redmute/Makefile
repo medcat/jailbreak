@@ -1,6 +1,6 @@
 GZIP=-9
 
-.PHONY: all clean
+.PHONY: all clean build
 .DEFAULT: all
 
 all: jailbreak_redmute.zip jailbreak_redmute.tar.gz
