@@ -258,9 +258,9 @@ void TeamBan(int adminId, int clientId, const char[] authId,
     int newTimes[2];
     int currentTimes[2];
     if(clientId != 0) {
-        if(Jailbreak_TriggerTeamBan(adminId, clientId, length, reason) != Plugin_Continue) return;
+        if(Jailbreak_TriggerTeamBan(adminId, ?clientId, length, reason) != Plugin_Continue) return;
     } else {
-        if(Jailbreak_TriggerTeamBanOffline(adminId, authId, length, reason) != Plugin_Continue) return;
+        if(Jailbreak_TriggerTeamBanOffline(adminId, ?authId, length, reason) != Plugin_Continue) return;
     }
 
     GetClientName(adminId, adminName, sizeof(adminName));
