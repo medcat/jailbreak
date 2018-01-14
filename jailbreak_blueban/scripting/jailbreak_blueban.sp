@@ -40,27 +40,13 @@ Handle forwardTeamBanOffline = null;
 #define JAILBREAK_TIMES_LEFT 1
 #define JAILBREAK_TIMES_LENGTH 0
 
-stock int Jailbreak_TimesRemaining(int times[2]) {
-    return times[JAILBREAK_TIMES_LEFT];
-}
-
-stock bool Jailbreak_TimesLeft(int times[2]) {
-    return (times[JAILBREAK_TIMES_LEFT] == 0 ||
-        times[JAILBREAK_TIMES_LEFT] > 0);
-}
-
-stock int GetTimeMinutes() {
-    return GetTime() / 60;
-}
-
-stock bool Jailbreak_TimesGreater(int a[2], int b[2]) {
-    return (a[JAILBREAK_TIMES_LEFT] == 0 || ((b[JAILBREAK_TIMES_LEFT] != 0) &&
-            Jailbreak_TimesRemaining(a) > Jailbreak_TimesRemaining(b)));
-}
+// -----------------------------------------------------------------------------
+//   EVENTS
+// -----------------------------------------------------------------------------
 
 public void OnPluginStart() {
     LoadTranslations("common.phrases");
-    LoadTranslations("jailbreak_teamban.phrases");
+    LoadTranslations("jailbreak_blueban.phrases");
 
     RegAdminCmd("sm_teamban", Command_Jailbreak_TeamBan, ADMFLAG_BAN,
         "teambans a player.", "sm_teamban");
@@ -70,6 +56,9 @@ public void OnPluginStart() {
         "teambans a player.", "sm_teamban_offline");
     RegAdminCmd("sm_unteamban_offline", Command_Jailbreak_UnTeamBan_Offline, ADMFLAG_UNBAN,
         "unteambans a player.", "sm_unteamban_offline");
+    RegAdminCmd("sm_teamban_status", Command_Jailbreak_TeamBan_Status, ADMFLAG_GENERIC,
+        "checks time remaining on player.", "sm_teamban_status");
+
     forwardTeamBan = CreateGlobalForward("OnJailbreakTeamBan", ET_Event,
         Param_Cell, Param_Cell, Param_Cell, Param_String);
     forwardTeamBanOffline = CreateGlobalForward("OnJailbreakTeamBanOffline", ET_Event,
@@ -98,27 +87,6 @@ public void OnSqlConnect(Database db, const char[] error, any data) {
 
     dataStore = db;
     LoadAllClients();
-}
-
-void LoadAllClients() {
-    char[] query = new char[1024];
-    char authId[32] = "";
-
-    StrCat(query, 1024, "SELECT * FROM tf2jail_blueban_logs WHERE (timeleft > -1) AND offender_steamid IN (''");
-    for(int i = 0; i < MAXPLAYERS; i++) {
-        int clientId = i + 1;
-        if(spawnTimes[i] == -1 && IsClientInGame(clientId)) {
-            GetClientAuthId(clientId, AuthId_Steam2, authId, sizeof(authId));
-            StrCat(query, 1024, ", '");
-            StrCat(query, 1024, authId);
-            StrCat(query, 1024, "'");
-        }
-    }
-
-    StrCat(query, 1024, ")");
-
-    LogMessage("running query \"%s\"", query);
-    dataStore.Query(OnTeamBanListResult, query);
 }
 
 public void OnTeamBanListResult(Database _db, DBResultSet result, const char[] error, any data) {
@@ -193,13 +161,15 @@ public void Event_PlayerSpawn(Event event, const char[] _n, bool _db) {
     GetClientAuthId(clientId, AuthId_Steam2, authId, sizeof(authId));
     if(!teamBans.GetArray(authId, times, sizeof(times))) return;
     if(!Jailbreak_TimesLeft(times)) {
-        teamBans.Remove(authId);
+        UpdateClientTimes(clientId);
         return;
     }
 
     if(event.GetInt("team") == view_as<int>(TFTeam_Blue)) {
         TF2_ChangeClientTeam(clientId, TFTeam_Red);
         TF2_RespawnPlayer(clientId);
+        CPrintToChat(clientId, JAILBREAK_REPLY, "Jailbreak_Teamban_IsBanned", 
+            clientId);
         spawnTimes[clientId - 1] = GetTimeMinutes();
     } else {
         spawnTimes[clientId - 1] = GetTimeMinutes();
@@ -218,7 +188,32 @@ public void Event_RoundEnd(Event _e, const char[] _n, bool _db) {
     }
 }
 
-void UpdateClientTimes(int clientId, bool forceDelete = false) {
+// -----------------------------------------------------------------------------
+//   BASIC TEAMBAN MANAGEMENT
+// -----------------------------------------------------------------------------
+
+void LoadAllClients() {
+    char[] query = new char[1024];
+    char authId[32] = "";
+
+    StrCat(query, 1024, "SELECT * FROM tf2jail_blueban_logs WHERE (timeleft > -1) AND offender_steamid IN (''");
+    for(int i = 0; i < MaxClients; i++) {
+        int clientId = i + 1;
+        if(IsClientInGame(clientId)) {
+            GetClientAuthId(clientId, AuthId_Steam2, authId, sizeof(authId));
+            StrCat(query, 1024, ", '");
+            StrCat(query, 1024, authId);
+            StrCat(query, 1024, "'");
+        }
+    }
+
+    StrCat(query, 1024, ")");
+
+    LogMessage("running query \"%s\"", query);
+    dataStore.Query(OnTeamBanListResult, query);
+}
+
+void UpdateClientTimes(int clientId, bool forceSpawnRemoval = false) {
     char authId[32];
     int times[2];
     if(teamBans == null || dataStore == null) return;
@@ -230,7 +225,10 @@ void UpdateClientTimes(int clientId, bool forceDelete = false) {
     char[] query = new char[1024];
     LogMessage("found client %L with live time %d", clientId, liveTime);
 
-    if(liveTime >= times[JAILBREAK_TIMES_LEFT] || forceDelete) {
+    if(Jailbreak_TimesPermanent(times)) {
+        // player is permanently banned, nothing to do.
+        LogMessage("found client %L as permanently banned, nothing to do.", clientId);
+    } else if(liveTime >= times[JAILBREAK_TIMES_LEFT]) {
         // teamban is done with.
         LogMessage("auto-unbanned client %L.", clientId);
         teamBans.Remove(authId);
@@ -247,7 +245,10 @@ void UpdateClientTimes(int clientId, bool forceDelete = false) {
         dataStore.Query(OnTeamBanUpdateResult, query);
     }
 
-    if(forceDelete) spawnTimes[clientId - 1] = -2;
+    if(forceSpawnRemoval) {
+        spawnTimes[clientId - 1] = -2;
+        teamBans.Remove(authId); // player's gone, no longer need to track
+    }
     else spawnTimes[clientId - 1] = -1;
 }
 
@@ -258,9 +259,9 @@ void TeamBan(int adminId, int clientId, const char[] authId,
     int newTimes[2];
     int currentTimes[2];
     if(clientId != 0) {
-        if(Jailbreak_TriggerTeamBan(adminId, ?clientId, length, reason) != Plugin_Continue) return;
+        if(Jailbreak_TriggerTeamBan(adminId, clientId, length, reason) != Plugin_Continue) return;
     } else {
-        if(Jailbreak_TriggerTeamBanOffline(adminId, ?authId, length, reason) != Plugin_Continue) return;
+        if(Jailbreak_TriggerTeamBanOffline(adminId, authId, length, reason) != Plugin_Continue) return;
     }
 
     GetClientName(adminId, adminName, sizeof(adminName));
@@ -292,6 +293,10 @@ void UnTeamBan(const char[] authId) {
     LogMessage("sending query '%s' to server.", query);
     teamBans.Remove(authId);
 }
+
+// -----------------------------------------------------------------------------
+//   COMMANDS
+// -----------------------------------------------------------------------------
 
 public Action Command_Jailbreak_TeamBan(int client, int args) {
     if(args < 2 || args > 3) {
@@ -429,6 +434,45 @@ public Action Command_Jailbreak_UnTeamBan_Offline(int client, int args) {
     return Plugin_Handled;
 }
 
+public Action Command_Jailbreak_TeamBan_Status(int client, int args) {
+    if(args != 1) {
+        PrintToConsole(client, "Usage: sm_teamban_status <client>");
+        return Plugin_Handled;
+    }
+
+    if(teamBans == null || dataStore == null) {
+        CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_Teamban_NotConnected",
+            client);
+        return Plugin_Handled;
+    }
+
+    char target[MAX_NAME_LENGTH];
+    GetCmdArg(1, target, sizeof(target));
+    int targetId = FindTarget(client, target, true, false);
+    if(targetId < 0) return Plugin_Handled;
+    char authId[32];
+    GetClientAuthId(targetId, AuthId_Steam2, authId, sizeof(authId));
+    int times[2];
+
+    if(!teamBans.GetArray(authId, times, sizeof(times))) {
+        CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_Teamban_Status_None", 
+            client);
+    } else if(Jailbreak_TimesPermanent(times)) {
+        CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_Teamban_Status_Permanent", 
+            client);
+    } else {
+        int timeLeft = Jailbreak_TimesRemaining(times);
+        CReplyToCommand(client, JAILBREAK_REPLY, "Jailbreak_Teamban_Status_TimeLeft", 
+            client, timeLeft);
+    }
+
+    return Plugin_Handled;
+}
+
+// -----------------------------------------------------------------------------
+//   NATIVES & FORWARDS
+// -----------------------------------------------------------------------------
+
 Action Jailbreak_TriggerTeamBan(int admin, int client, int length, const char[] reason) {
     Action result;
     Call_StartForward(forwardTeamBan);
@@ -436,7 +480,7 @@ Action Jailbreak_TriggerTeamBan(int admin, int client, int length, const char[] 
     Call_PushCell(client);
     Call_PushCell(length);
     Call_PushString(reason);
-    if(Call_Finish(result) != SP_ERROR_NONE) ThrowError("TriggerMapEventEx forward failed!");
+    if(Call_Finish(result) != SP_ERROR_NONE) ThrowError("TriggerTeamBan forward failed!");
     return result;
 }
 
@@ -448,7 +492,7 @@ Action Jailbreak_TriggerTeamBanOffline(int admin, const char[] authId, int lengt
     Call_PushString(authId);
     Call_PushCell(length);
     Call_PushString(reason);
-    if(Call_Finish(result) != SP_ERROR_NONE) ThrowError("TriggerMapEventEx forward failed!");
+    if(Call_Finish(result) != SP_ERROR_NONE) ThrowError("TriggerTeamBanOffline forward failed!");
     return result;
 }
 
@@ -502,4 +546,29 @@ public int Native_JailbreakUnTeamBanOffline(Handle plugin, int numParams) {
     GetNativeString(1, authId, sizeof(authId));
     UnTeamBan(authId);
     return 0;
+}
+
+// -----------------------------------------------------------------------------
+//   STOCKS
+// -----------------------------------------------------------------------------
+
+stock int Jailbreak_TimesRemaining(int times[2]) {
+    return times[JAILBREAK_TIMES_LEFT];
+}
+
+stock bool Jailbreak_TimesPermanent(int times[2])  {
+    return times[JAILBREAK_TIMES_LEFT] == 0;
+}
+
+stock bool Jailbreak_TimesLeft(int times[2]) {
+    return (Jailbreak_TimesPermanent(times) || times[JAILBREAK_TIMES_LEFT] > 0);
+}
+
+stock int GetTimeMinutes() {
+    return GetTime() / 60;
+}
+
+stock bool Jailbreak_TimesGreater(int a[2], int b[2]) {
+    return (Jailbreak_TimesPermanent(a) || (!Jailbreak_TimesPermanent(b) &&
+            Jailbreak_TimesRemaining(a) > Jailbreak_TimesRemaining(b)));
 }

@@ -26,4 +26,25 @@
     {
         "en"        "Invalid SteamID."
     }
+
+    "Jailbreak_Teamban_IsBanned"
+    {
+        "en"        "You have been banned from joining blue team!"
+    }
+
+    "Jailbreak_Teamban_Status_None"
+    {
+        "en"        "The target is not teambanned."
+    }
+
+    "Jailbreak_Teamban_Status_Permanent"
+    {
+        "en"        "The target is permanently teambanned."
+    }
+
+    "Jailbreak_Teamban_Status_TimeLeft"
+    {
+        "#format"   "{1:d}"
+        "en"        "The target is teambanned for {1:d} minutes."
+    }
 }
